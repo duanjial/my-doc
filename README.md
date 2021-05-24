@@ -1,6 +1,7 @@
 # A personal online document editor
 
 This is an online document can be saved into MongoDB. Different people can be modify at the same time.
+This project contains both backend and frontend.
 
 ## Clone the project
 
