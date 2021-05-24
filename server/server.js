@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Document = require("./Document")
 const MongoClient = require('mongodb').MongoClient;
 
-const uri = "mongodb+srv://user:mypassword@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority";
+const uri = "mongodb+srv://<user>:<password>@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority";
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true})
 
