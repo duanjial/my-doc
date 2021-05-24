@@ -1,5 +1,9 @@
 # A personal online document editor
 
+This is an online document can be saved into MongoDB. Different people can be modify at the same time.
+
+## Clone the project
+
 `git clone https://github.com/duanjial/my-doc.git`
 
 ## Start the server
