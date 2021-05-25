@@ -1,9 +1,10 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const Document = require("./Document");
 const MongoClient = require("mongodb").MongoClient;
+const cors = require("cors");
 
-const uri =
-  "mongodb+srv://<user>:<password>@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority`;
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -12,7 +13,11 @@ mongoose.connect(uri, {
   useCreateIndex: true,
 });
 
-const io = require("socket.io")(3001, {
+const app = require("express")();
+app.use(cors());
+const httpServer = require("http").createServer(app);
+
+const io = require("socket.io")(httpServer, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
@@ -35,6 +40,14 @@ io.on("connection", (socket) => {
       await Document.findByIdAndUpdate(documentId, { data });
     });
   });
+});
+
+app.get("/api", (req, res) => {
+  res.json({ msg: "hello from home page" });
+});
+
+httpServer.listen(3001, () => {
+  console.log("Listening on port 3001");
 });
 
 async function findOrCreateDocument(id) {
