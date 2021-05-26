@@ -1,7 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const Document = require("./Document");
-const MongoClient = require("mongodb").MongoClient;
 const cors = require("cors");
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority`;
@@ -42,8 +41,9 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/api", (req, res) => {
-  res.json({ msg: "hello from home page" });
+app.get("/documents", async (req, res) => {
+  const documents = await Document.find();
+  res.status(200).json({ documents: documents.map((doc) => doc._id) });
 });
 
 httpServer.listen(3001, () => {

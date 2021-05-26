@@ -4,9 +4,9 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  // Redirect,
 } from "react-router-dom";
-import { v4 as uuidV4 } from "uuid";
+// import { v4 as uuidV4 } from "uuid";
 import Home from "./Home";
 
 function App() {
