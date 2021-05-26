@@ -46,6 +46,17 @@ app.get("/documents", async (req, res) => {
   res.status(200).json({ documents: documents.map((doc) => doc._id) });
 });
 
+app.delete("/documents/:id", async (req, res) => {
+  const documentId = req.params.id;
+  await Document.findByIdAndDelete(documentId, (err) => {
+    if (err) {
+      return res.status(200).json({ msg: "Document deleted falied" });
+    } else {
+      return res.status(200).json({ msg: "Document deleted" });
+    }
+  });
+});
+
 httpServer.listen(3001, () => {
   console.log("Listening on port 3001");
 });
