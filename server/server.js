@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const Document = require("./Document");
+const bcrypt = require("bcryptjs");
+const User = require("./User");
 const cors = require("cors");
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority`;
@@ -65,8 +67,69 @@ app.delete("/documents/:id", async (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  console.log(req.body);
-  res.status(200).json({ msg: "Registered!" });
+  const { name, email, password, password2 } = req.body;
+  let errors = [];
+
+  if (!name || !email || !password || !password2) {
+    errors.push({ msg: "Please enter all fields" });
+  }
+
+  if (password != password2) {
+    errors.push({ msg: "Passwords do not match" });
+  }
+
+  if (password.length < 6) {
+    errors.push({ msg: "Password must be at least 6 characters" });
+  }
+
+  if (errors.length > 0) {
+    // res.render('register', {
+    //   errors,
+    //   name,
+    //   email,
+    //   password,
+    //   password2
+    // });
+    console.log(errors);
+  } else {
+    User.findOne({ email: email }).then((user) => {
+      if (user) {
+        errors.push({ msg: "Email already exists" });
+        // res.render("register", {
+        //   errors,
+        //   name,
+        //   email,
+        //   password,
+        //   password2,
+        // });
+        console.log(errors);
+      } else {
+        const newUser = new User({
+          name,
+          email,
+          password,
+        });
+
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+              .save()
+              .then((user) => {
+                // req.flash(
+                //   "success_msg",
+                //   "You are now registered and can log in"
+                // );
+                // res.redirect("/users/login");
+                console.log(user);
+              })
+              .catch((err) => console.log(err));
+          });
+        });
+      }
+    });
+  }
 });
 
 httpServer.listen(3001, () => {
