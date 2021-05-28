@@ -7,6 +7,8 @@ import {
   // Redirect,
 } from "react-router-dom";
 import Home from "./Home";
+import Login from "./Login";
+import Register from "./Register";
 
 function App() {
   return (
@@ -15,6 +17,12 @@ function App() {
         <Route path="/" exact>
           {/* <Redirect to={`/documents/${uuidV4()}`} /> */}
           <Home />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/register">
+          <Register />
         </Route>
         <Route path="/documents/:id">
           <TextEditor />

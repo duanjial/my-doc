@@ -13,6 +13,8 @@ mongoose.connect(uri, {
 });
 
 const app = require("express")();
+
+// cors middleware
 app.use(cors());
 const httpServer = require("http").createServer(app);
 
