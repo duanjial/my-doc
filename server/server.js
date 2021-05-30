@@ -67,69 +67,32 @@ app.delete("/documents/:id", async (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  const { name, email, password, password2 } = req.body;
-  let errors = [];
+  const { name, email, password } = req.body;
 
-  if (!name || !email || !password || !password2) {
-    errors.push({ msg: "Please enter all fields" });
-  }
+  User.findOne({ email: email }).then((user) => {
+    if (user) {
+      res.status(400).json({ msg: "Email already exists" });
+    } else {
+      const newUser = new User({
+        name,
+        email,
+        password,
+      });
 
-  if (password != password2) {
-    errors.push({ msg: "Passwords do not match" });
-  }
-
-  if (password.length < 6) {
-    errors.push({ msg: "Password must be at least 6 characters" });
-  }
-
-  if (errors.length > 0) {
-    // res.render('register', {
-    //   errors,
-    //   name,
-    //   email,
-    //   password,
-    //   password2
-    // });
-    console.log(errors);
-  } else {
-    User.findOne({ email: email }).then((user) => {
-      if (user) {
-        errors.push({ msg: "Email already exists" });
-        // res.render("register", {
-        //   errors,
-        //   name,
-        //   email,
-        //   password,
-        //   password2,
-        // });
-        console.log(errors);
-      } else {
-        const newUser = new User({
-          name,
-          email,
-          password,
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then((user) => {
+              res.status(200).json({ userName: user.name });
+            })
+            .catch((err) => console.log(err));
         });
-
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser
-              .save()
-              .then((user) => {
-                // req.flash(
-                //   "success_msg",
-                //   "You are now registered and can log in"
-                // );
-                // res.redirect("/users/login");
-                console.log(user);
-              })
-              .catch((err) => console.log(err));
-          });
-        });
-      }
-    });
-  }
+      });
+    }
+  });
 });
 
 httpServer.listen(3001, () => {

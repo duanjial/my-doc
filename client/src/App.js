@@ -9,6 +9,7 @@ import {
 import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
+import Dashboard from "./Dashboard";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/register">
           <Register />
         </Route>
+        <Route path="/dashboard" render={(props) => <Dashboard {...props} />} />
         <Route path="/documents/:id">
           <TextEditor />
         </Route>
