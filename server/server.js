@@ -5,6 +5,12 @@ const Document = require("./Document");
 const bcrypt = require("bcryptjs");
 const User = require("./User");
 const cors = require("cors");
+const flash = require("connect-flash");
+var session = require("express-session");
+var passport = require("passport");
+
+// passport config
+require("./passport")(passport);
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority`;
 
@@ -22,6 +28,22 @@ app.use(cors());
 
 // Express body parser
 app.use(express.json());
+
+// Connect flash
+app.use(flash());
+
+// Express session
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 const httpServer = require("http").createServer(app);
 
@@ -51,6 +73,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/documents", async (req, res) => {
+  console.log(req.session);
   const documents = await Document.find();
   res.status(200).json({ documents: documents.map((doc) => doc._id) });
 });
@@ -66,6 +89,7 @@ app.delete("/documents/:id", async (req, res) => {
   });
 });
 
+// Register
 app.post("/register", (req, res) => {
   const { name, email, password } = req.body;
 
@@ -93,6 +117,24 @@ app.post("/register", (req, res) => {
       });
     }
   });
+});
+
+// Login
+app.post("/login", function (req, res, next) {
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(400).json({ message: info.message });
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return next(err);
+      }
+      return res.status(200).json({ name: user.name });
+    });
+  })(req, res, next);
 });
 
 httpServer.listen(3001, () => {
