@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Dashboard(props) {
-  if (props.location.state) {
-    return (
-      <div>Welcome {props.location.state.userName}. You have loged in.</div>
-    );
-  } else {
-    return <div>Please login</div>;
-  }
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/getUser")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // const fetchData = async () => {
+    //   await axios
+    //     .get("http://localhost:3001/getUser")
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // };
+    // fetchData();
+  }, []);
+  return <div>Welcome . You have loged in.</div>;
 }

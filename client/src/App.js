@@ -10,8 +10,10 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
+import axios from "axios";
 
 function App() {
+  axios.defaults.withCredentials = true;
   return (
     <Router>
       <Switch>

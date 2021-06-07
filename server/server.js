@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Document = require("./Document");
 const bcrypt = require("bcryptjs");
+const cookie = require("cookie-parser");
 const User = require("./User");
 const cors = require("cors");
 const flash = require("connect-flash");
@@ -24,7 +25,12 @@ mongoose.connect(uri, {
 const app = require("express")();
 
 // cors middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 // Express body parser
 app.use(express.json());
@@ -40,6 +46,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+app.use(cookie("secret"));
 
 // Passport middleware
 app.use(passport.initialize());
@@ -73,7 +81,6 @@ io.on("connection", (socket) => {
 });
 
 app.get("/documents", async (req, res) => {
-  console.log(req.session);
   const documents = await Document.find();
   res.status(200).json({ documents: documents.map((doc) => doc._id) });
 });
@@ -132,9 +139,20 @@ app.post("/login", function (req, res, next) {
       if (err) {
         return next(err);
       }
-      return res.status(200).json({ name: user.name });
+      // console.log(req.session.passport.user);
+      return res.status(200).send({ msg: "login success" });
     });
   })(req, res, next);
+});
+
+app.get("/logout", function (req, res) {
+  req.logout();
+  return res.status(200).send({ msg: "logout success" });
+  // res.redirect('/');
+});
+
+app.get("/getUser", (req, res) => {
+  return res.status(200).send(req.user);
 });
 
 httpServer.listen(3001, () => {

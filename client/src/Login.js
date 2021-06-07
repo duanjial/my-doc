@@ -4,7 +4,6 @@ import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const [loginError, setLoginError] = useState("");
@@ -16,9 +15,9 @@ export default function Login() {
   useEffect(() => {
     return () => {
       setEmail("");
-      setUserName("");
       setPassword("");
       setErrors([]);
+      setLoginSuccess(false);
     };
   }, []);
 
@@ -42,9 +41,9 @@ export default function Login() {
           password,
         })
         .then((res) => {
-          setUserName(res.data.name);
           setLoginError("");
           setLoginSuccess(true);
+          console.log(res);
         })
         .catch((err) => {
           setLoginError(err.response.data.message);
@@ -77,14 +76,7 @@ export default function Login() {
 
   var login;
   if (loginSuccess) {
-    login = (
-      <Redirect
-        to={{
-          pathname: "/dashboard",
-          state: { userName },
-        }}
-      />
-    );
+    login = <Redirect to="/dashboard" />;
   } else {
     login = (
       <div className="row mt-5">
