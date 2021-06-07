@@ -43,7 +43,6 @@ export default function Login() {
         .then((res) => {
           setLoginError("");
           setLoginSuccess(true);
-          console.log(res);
         })
         .catch((err) => {
           setLoginError(err.response.data.message);

@@ -152,7 +152,7 @@ app.get("/logout", function (req, res) {
 });
 
 app.get("/getUser", (req, res) => {
-  return res.status(200).send(req.user);
+  return res.status(200).send({ user: req.user });
 });
 
 httpServer.listen(3001, () => {
