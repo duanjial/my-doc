@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalContext } from "./context/GlobalState";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Navbar() {
+  const { isLogin, setIsLogin, userName, setUsername } =
+    useContext(GlobalContext);
+
+  const logout = () => {
+    axios
+      .get("http://localhost:3001/logout")
+      .then((res) => {
+        setIsLogin(false);
+        setUsername("");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
@@ -32,12 +47,22 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
-          <Link to="/login" className="btn btn-primary">
-            Login
-          </Link>
-          <Link to="/register" className="btn btn-primary">
-            Register
-          </Link>
+          {isLogin ? (
+            <span>Welcome, {userName}</span>
+          ) : (
+            <Link to="/login" className="btn btn-primary">
+              Login
+            </Link>
+          )}
+          {isLogin ? (
+            <button className="btn btn-primary" onClick={() => logout()}>
+              Logout
+            </button>
+          ) : (
+            <Link to="/register" className="btn btn-primary">
+              Register
+            </Link>
+          )}
         </div>
       </div>
     </nav>

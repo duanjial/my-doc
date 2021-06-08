@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { GlobalContext } from "./context/GlobalState";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ export default function Login() {
   const [loginError, setLoginError] = useState("");
   const [formValid, setFormValid] = useState(true);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const { setIsLogin } = useContext(GlobalContext);
 
   var messages = [];
 
@@ -43,6 +45,7 @@ export default function Login() {
         .then((res) => {
           setLoginError("");
           setLoginSuccess(true);
+          setIsLogin(true);
         })
         .catch((err) => {
           setLoginError(err.response.data.message);
