@@ -10,12 +10,14 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
+import Navbar from "./Navbar";
 import axios from "axios";
 
 function App() {
   axios.defaults.withCredentials = true;
   return (
     <Router>
+      <Navbar />
       <Switch>
         <Route path="/" exact>
           {/* <Redirect to={`/documents/${uuidV4()}`} /> */}
