@@ -161,7 +161,6 @@ app.get("/document", (req, res) => {
   console.log(req.user);
   const { id, name } = req.user;
   var docId = uuidv4();
-  console.log(docId);
   CreateDocument(docId, id);
   return res.status(200).send({ doc_id: docId });
 });

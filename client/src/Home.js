@@ -67,7 +67,13 @@ export default function Home() {
             documents.map((doc) => (
               <li key={doc}>
                 <Link to={`/documents/${doc}`}>{doc}</Link>
-                <button onClick={() => handleDelete(doc)}>Delete</button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(doc)}
+                >
+                  Delete
+                </button>
               </li>
             ))
           )}
