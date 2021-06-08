@@ -9,6 +9,7 @@ import {
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
+import About from "./About";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { GlobalProvider } from "./context/GlobalState";
@@ -21,9 +22,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route path="/" exact>
-            {/* <Redirect to={`/documents/${uuidV4()}`} /> */}
             <Redirect to="/dashboard" />
-            {/* <Home /> */}
           </Route>
           <Route path="/login">
             <Login />
@@ -35,6 +34,9 @@ function App() {
             path="/dashboard"
             render={(props) => <Dashboard {...props} />}
           />
+          <Route path="/about">
+            <About />
+          </Route>
           <Route path="/documents/:id">
             <TextEditor />
           </Route>

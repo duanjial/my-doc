@@ -158,7 +158,6 @@ app.get("/getUser", (req, res) => {
 
 // create document
 app.get("/document", (req, res) => {
-  console.log(req.user);
   const { id, name } = req.user;
   var docId = uuidv4();
   CreateDocument(docId, id);
