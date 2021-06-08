@@ -9,6 +9,7 @@ const cors = require("cors");
 const flash = require("connect-flash");
 var session = require("express-session");
 var passport = require("passport");
+const { v4: uuidv4 } = require("uuid");
 
 // passport config
 require("./passport")(passport);
@@ -81,7 +82,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/documents", async (req, res) => {
-  const documents = await Document.find();
+  const documents = await Document.find({ userId: req.user.id });
   res.status(200).json({ documents: documents.map((doc) => doc._id) });
 });
 
@@ -155,6 +156,16 @@ app.get("/getUser", (req, res) => {
   return res.status(200).send({ user: req.user });
 });
 
+// create document
+app.get("/document", (req, res) => {
+  console.log(req.user);
+  const { id, name } = req.user;
+  var docId = uuidv4();
+  console.log(docId);
+  CreateDocument(docId, id);
+  return res.status(200).send({ doc_id: docId });
+});
+
 httpServer.listen(3001, () => {
   console.log("Listening on port 3001");
 });
@@ -164,4 +175,9 @@ async function findOrCreateDocument(id) {
   const document = await Document.findById(id);
   if (document) return document;
   return await Document.create({ _id: id, data: defaultValue });
+}
+
+async function CreateDocument(id, userId) {
+  if (id == null) return;
+  return await Document.create({ _id: id, data: defaultValue, userId: userId });
 }
