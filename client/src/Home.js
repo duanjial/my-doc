@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <div>
-      <h2>All my documents</h2>
+      <h2>Here are all your documents</h2>
       <ul>
         {loading ? (
           <div>Loading...</div>

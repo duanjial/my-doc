@@ -4,9 +4,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // Redirect,
+  Redirect,
 } from "react-router-dom";
-import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
@@ -23,7 +22,8 @@ function App() {
         <Switch>
           <Route path="/" exact>
             {/* <Redirect to={`/documents/${uuidV4()}`} /> */}
-            <Home />
+            <Redirect to="/dashboard" />
+            {/* <Home /> */}
           </Route>
           <Route path="/login">
             <Login />

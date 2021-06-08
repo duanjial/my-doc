@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { GlobalContext } from "./context/GlobalState";
-import { Redirect } from "react-router-dom";
+import Home from "./Home";
 import axios from "axios";
 
 export default function Dashboard(props) {
@@ -8,17 +8,14 @@ export default function Dashboard(props) {
     useContext(GlobalContext);
 
   useEffect(() => {
-    let unmounted = false;
     const fetchData = async () => {
       await axios
         .get("http://localhost:3001/getUser")
         .then((res) => {
           if (res.data.user) {
-            const { id, name } = res.data.user;
-            if (!unmounted) {
-              setIsLogin(true);
-              setUsername(name);
-            }
+            // const { id, name } = res.data.user;
+            setIsLogin(true);
+            setUsername(res.data.user.name);
           }
         })
         .catch((err) => {
@@ -26,16 +23,23 @@ export default function Dashboard(props) {
         });
     };
     fetchData();
-    return () => {
-      unmounted = true;
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   var dashBoard;
   if (isLogin) {
-    dashBoard = <div>Welcome {userName}</div>;
+    dashBoard = (
+      <div>
+        <h1>Welcome {userName}</h1>
+        <Home />
+      </div>
+    );
   } else {
-    dashBoard = <div>Please login</div>;
+    dashBoard = (
+      <div>
+        <h1>Please Login / Register first</h1>
+      </div>
+    );
   }
   return dashBoard;
 }
