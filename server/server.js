@@ -11,7 +11,7 @@ const routes = require("./routes/routes");
 const secureRoute = require("./routes/secure_routes");
 
 // passport config
-require("./auth/passport")(passport);
+require("./auth/auth")(passport);
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority`;
 
