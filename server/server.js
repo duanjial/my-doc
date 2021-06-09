@@ -10,9 +10,10 @@ const flash = require("connect-flash");
 var session = require("express-session");
 var passport = require("passport");
 const { v4: uuidv4 } = require("uuid");
+const routes = require("./routes/routes");
 
 // passport config
-require("./passport")(passport);
+require("./auth/passport")(passport);
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hy6km.mongodb.net/google-docs?retryWrites=true&w=majority`;
 
@@ -53,6 +54,8 @@ app.use(cookie("secret"));
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use("/", routes);
 
 const httpServer = require("http").createServer(app);
 
@@ -95,55 +98,6 @@ app.delete("/documents/:id", async (req, res) => {
       return res.status(200).json({ msg: "Document deleted" });
     }
   });
-});
-
-// Register
-app.post("/register", (req, res) => {
-  const { name, email, password } = req.body;
-
-  User.findOne({ email: email }).then((user) => {
-    if (user) {
-      res.status(400).json({ msg: "Email already exists" });
-    } else {
-      const newUser = new User({
-        name,
-        email,
-        password,
-      });
-
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser
-            .save()
-            .then((user) => {
-              res.status(200).json({ userName: user.name });
-            })
-            .catch((err) => console.log(err));
-        });
-      });
-    }
-  });
-});
-
-// Login
-app.post("/login", function (req, res, next) {
-  passport.authenticate("local", function (err, user, info) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(400).json({ message: info.message });
-    }
-    req.logIn(user, function (err) {
-      if (err) {
-        return next(err);
-      }
-      // console.log(req.session.passport.user);
-      return res.status(200).send({ msg: "login success" });
-    });
-  })(req, res, next);
 });
 
 app.get("/logout", function (req, res) {
