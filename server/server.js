@@ -2,14 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const Document = require("./schemas/Document");
-const bcrypt = require("bcryptjs");
 const cookie = require("cookie-parser");
-const User = require("./schemas/User");
 const cors = require("cors");
 const flash = require("connect-flash");
 var session = require("express-session");
 var passport = require("passport");
-const { v4: uuidv4 } = require("uuid");
 const routes = require("./routes/routes");
 
 // passport config
@@ -84,40 +81,6 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/documents", async (req, res) => {
-  const documents = await Document.find({ userId: req.user.id });
-  res.status(200).json({ documents: documents.map((doc) => doc._id) });
-});
-
-app.delete("/documents/:id", async (req, res) => {
-  const documentId = req.params.id;
-  await Document.findByIdAndDelete(documentId, (err) => {
-    if (err) {
-      return res.status(200).json({ msg: "Document deleted falied" });
-    } else {
-      return res.status(200).json({ msg: "Document deleted" });
-    }
-  });
-});
-
-app.get("/logout", function (req, res) {
-  req.logout();
-  return res.status(200).send({ msg: "logout success" });
-  // res.redirect('/');
-});
-
-app.get("/getUser", (req, res) => {
-  return res.status(200).send({ user: req.user });
-});
-
-// create document
-app.get("/document", (req, res) => {
-  const { id, name } = req.user;
-  var docId = uuidv4();
-  CreateDocument(docId, id);
-  return res.status(200).send({ doc_id: docId });
-});
-
 httpServer.listen(3001, () => {
   console.log("Listening on port 3001");
 });
@@ -127,9 +90,4 @@ async function findOrCreateDocument(id) {
   const document = await Document.findById(id);
   if (document) return document;
   return await Document.create({ _id: id, data: defaultValue });
-}
-
-async function CreateDocument(id, userId) {
-  if (id == null) return;
-  return await Document.create({ _id: id, data: defaultValue, userId: userId });
 }
