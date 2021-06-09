@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const Document = require("../schemas/Document");
+const { v4: uuidv4 } = require("uuid");
 
 // Documents
 router.get("/documents", async (req, res) => {

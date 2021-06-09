@@ -1,9 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-const Document = require("../schemas/Document");
 const router = express.Router();
-const { v4: uuidv4 } = require("uuid");
 
 // Register
 router.post("/register", async (req, res, next) => {
