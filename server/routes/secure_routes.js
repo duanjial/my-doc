@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 
 // Documents
 router.get("/documents", async (req, res) => {
-  const documents = await Document.find({ userId: req.user.id });
+  const documents = await Document.find({ userId: req.user._id });
   res.status(200).json({ documents: documents.map((doc) => doc._id) });
 });
 
@@ -23,18 +23,9 @@ router.delete("/documents/:id", async (req, res) => {
 
 // Create document
 router.get("/document", (req, res) => {
-  const { id, name } = req.user;
   var docId = uuidv4();
-  CreateDocument(docId, id);
+  CreateDocument(docId, req.user._id);
   return res.status(200).send({ doc_id: docId });
-});
-
-router.get("/profile", (req, res, next) => {
-  res.json({
-    message: "You made it to the secure route",
-    user: req.user,
-    token: req.query.secret_token,
-  });
 });
 
 router.get("/getUser", (req, res) => {
@@ -43,7 +34,7 @@ router.get("/getUser", (req, res) => {
 
 async function CreateDocument(id, userId) {
   if (id == null) return;
-  return await Document.create({ _id: id, data: defaultValue, userId: userId });
+  return await Document.create({ _id: id, data: "", userId: userId });
 }
 
 module.exports = router;
