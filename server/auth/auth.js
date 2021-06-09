@@ -5,7 +5,7 @@ passport.use(
   new JWTstrategy(
     {
       secretOrKey: "TOP_SECRET",
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     },
     async (jwt_payload, done) => {
       try {

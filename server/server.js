@@ -1,10 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const Document = require("./Document");
+const Document = require("./schemas/Document");
 const bcrypt = require("bcryptjs");
 const cookie = require("cookie-parser");
-const User = require("./User");
+const User = require("./schemas/User");
 const cors = require("cors");
 const flash = require("connect-flash");
 var session = require("express-session");
