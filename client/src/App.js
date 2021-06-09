@@ -1,4 +1,4 @@
-import TextEditor from "./TextEditor";
+import TextEditor from "./components/TextEditor";
 import "./style.css";
 import {
   BrowserRouter as Router,
@@ -6,11 +6,11 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-import Dashboard from "./Dashboard";
-import About from "./About";
-import Navbar from "./Navbar";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
+import About from "./components/About";
+import Navbar from "./components/Navbar";
 import axios from "axios";
 import { GlobalProvider } from "./context/GlobalState";
 

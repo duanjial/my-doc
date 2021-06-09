@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
-import { v4 as uuidV4 } from "uuid";
 
 export default function Home() {
   const [documents, setDocuments] = useState([]);
@@ -50,7 +49,6 @@ export default function Home() {
     axios
       .get("http://localhost:3001/document")
       .then((res) => {
-        console.log(res);
         setDocId(res.data.doc_id);
         setCreated(true);
       })
