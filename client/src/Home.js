@@ -12,14 +12,22 @@ export default function Home() {
 
   useEffect(() => {
     setLoading(true);
+    console.log("fetching doc");
+    console.log(localStorage.getItem("token"));
     const fetchData = async () => {
       await axios
-        .get("http://localhost:3001/documents")
+        .get("http://localhost:3001/documents", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
         .then((res) => {
+          console.log("here");
           setDocuments(res.data.documents);
           setLoading(false);
         })
         .catch((err) => {
+          console.log("err");
           setHasError(true);
           setLoading(false);
         });

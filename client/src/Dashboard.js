@@ -10,7 +10,11 @@ export default function Dashboard(props) {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get("http://localhost:3001/getUser")
+        .get("http://localhost:3001/getUser", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
         .then((res) => {
           if (res.data.user) {
             // const { id, name } = res.data.user;

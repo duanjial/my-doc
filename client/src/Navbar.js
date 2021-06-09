@@ -9,8 +9,11 @@ export default function Navbar() {
 
   const logout = () => {
     axios
-      .get("http://localhost:3001/logout")
+      .get("http://localhost:3001/logout", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      })
       .then((res) => {
+        localStorage.removeItem("token");
         setIsLogin(false);
         setUsername("");
       })

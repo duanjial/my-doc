@@ -43,6 +43,7 @@ export default function Login() {
           password,
         })
         .then((res) => {
+          localStorage.setItem("token", res.data.token);
           setLoginError("");
           setLoginSuccess(true);
           setIsLogin(true);
