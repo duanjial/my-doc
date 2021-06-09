@@ -1,4 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy;
+const JWTstrategy = require("passport-jwt").Strategy;
+const ExtractJWT = require("passport-jwt").ExtractJwt;
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 
@@ -65,6 +67,22 @@ module.exports = function (passport) {
         });
       });
     })
+  );
+
+  passport.use(
+    new JWTstrategy(
+      {
+        secretOrKey: "TOP_SECRET",
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      },
+      async (jwt_payload, done) => {
+        try {
+          return done(null, jwt_payload.user);
+        } catch (error) {
+          done(error);
+        }
+      }
+    )
   );
 };
 

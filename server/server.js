@@ -8,6 +8,7 @@ const flash = require("connect-flash");
 var session = require("express-session");
 var passport = require("passport");
 const routes = require("./routes/routes");
+const secureRoute = require("./routes/secure_routes");
 
 // passport config
 require("./auth/passport")(passport);
@@ -53,6 +54,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/", routes);
+app.use("/", passport.authenticate("jwt", { session: false }), secureRoute);
 
 const httpServer = require("http").createServer(app);
 
