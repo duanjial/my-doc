@@ -10,7 +10,7 @@ router.post("/register", async (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      return res.status(400).json({ message: info.message });
+      return res.status(200).json({ message: info.message });
     }
     return res.status(200).json({
       message: "Register successful",

@@ -1,14 +1,11 @@
 export const AppReducer = (state = { authData: null }, action) => {
   switch (action.type) {
     case "LOGIN":
-      console.log("reducer");
-      console.log(action.payload.token);
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
       };
     case "REGISTER":
-      console.log("register reducer");
       return {
         ...state,
         msg: action.payload,
