@@ -33,7 +33,7 @@ router.post("/login", async (req, res, next) => {
 
         const body = { _id: user._id, name: user.name, email: user.email };
         const token = jwt.sign({ user: body }, "TOP_SECRET");
-        return res.status(200).send({ token });
+        return res.status(200).send({ token, body });
       });
     } catch (error) {
       return next(error);

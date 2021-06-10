@@ -6,6 +6,8 @@ import * as api from "../api/index.js";
 const initialState = {
   isLogin: false,
   userName: "",
+  userId: "",
+  email: "",
 };
 
 // Create context
@@ -33,7 +35,6 @@ export const GlobalProvider = ({ children }) => {
   async function login(formData, history) {
     try {
       const { data } = await api.logIn(formData);
-      console.log(data);
       dispatch({
         type: "LOGIN",
         payload: data,
@@ -47,7 +48,6 @@ export const GlobalProvider = ({ children }) => {
   async function register(formData, history) {
     try {
       const { data } = await api.register(formData);
-      console.log(data);
       dispatch({
         type: "REGISTER",
         payload: data,

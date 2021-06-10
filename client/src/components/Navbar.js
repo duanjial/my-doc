@@ -13,7 +13,7 @@ export default function Navbar() {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
       .then((res) => {
-        localStorage.removeItem("token");
+        localStorage.clear();
         setIsLogin(false);
         setUsername("");
       })
