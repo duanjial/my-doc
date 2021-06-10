@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
@@ -9,8 +9,8 @@ export default function Login() {
   const [errors, setErrors] = useState([]);
   const [loginError, setLoginError] = useState("");
   const [formValid, setFormValid] = useState(true);
-  const [loginSuccess, setLoginSuccess] = useState(false);
   const { setIsLogin } = useContext(GlobalContext);
+  const history = useHistory();
 
   var messages = [];
 
@@ -19,7 +19,6 @@ export default function Login() {
       setEmail("");
       setPassword("");
       setErrors([]);
-      setLoginSuccess(false);
     };
   }, []);
 
@@ -45,8 +44,8 @@ export default function Login() {
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           setLoginError("");
-          setLoginSuccess(true);
           setIsLogin(true);
+          history.push("/dashboard");
         })
         .catch((err) => {
           setLoginError(err.response.data.message);
@@ -77,56 +76,50 @@ export default function Login() {
     );
   }
 
-  var login;
-  if (loginSuccess) {
-    login = <Redirect to="/dashboard" />;
-  } else {
-    login = (
-      <div className="row mt-5">
-        <div className="col-md-6 m-auto">
-          <div className="card card-body">
-            <h1 className="text-center mb-3">
-              <i className="fas fa-sign-in-alt"></i> Login
-            </h1>
-            {errorMsg}
-            <form action="/users/login" method="POST">
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="form-control"
-                  placeholder="Enter Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="form-control"
-                  placeholder="Enter Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-            </form>
-            <button
-              className="formBtn btn btn-lg btn-primary"
-              type="submit"
-              onClick={(e) => handleSubmit(e)}
-            >
-              Login
-            </button>
-            <p className="lead mt-4">
-              No Account? <a href="/register">Register</a>
-            </p>
-          </div>
+  return (
+    <div className="row mt-5">
+      <div className="col-md-6 m-auto">
+        <div className="card card-body">
+          <h1 className="text-center mb-3">
+            <i className="fas fa-sign-in-alt"></i> Login
+          </h1>
+          {errorMsg}
+          <form action="/users/login" method="POST">
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="form-control"
+                placeholder="Enter Email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className="form-control"
+                placeholder="Enter Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+          </form>
+          <button
+            className="formBtn btn btn-lg btn-primary"
+            type="submit"
+            onClick={(e) => handleSubmit(e)}
+          >
+            Login
+          </button>
+          <p className="lead mt-4">
+            No Account? <a href="/register">Register</a>
+          </p>
         </div>
       </div>
-    );
-  }
-  return <>{login}</>;
+    </div>
+  );
 }
