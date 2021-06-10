@@ -1,30 +1,32 @@
 import React, { useState, useEffect, useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+
+const initialData = { email: "", password: "" };
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState(initialData);
   const [errors, setErrors] = useState([]);
   const [loginError, setLoginError] = useState("");
   const [formValid, setFormValid] = useState(true);
-  const { setIsLogin } = useContext(GlobalContext);
+  const { login } = useContext(GlobalContext);
   const history = useHistory();
 
   var messages = [];
 
   useEffect(() => {
     return () => {
-      setEmail("");
-      setPassword("");
       setErrors([]);
     };
   }, []);
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
-    if (!email || !password) {
+    if (!formData.email || !formData.password) {
       messages.push("Please enter all fields");
     }
 
@@ -36,20 +38,7 @@ export default function Login() {
     }
 
     if (messages.length === 0) {
-      axios
-        .post("http://localhost:3001/login", {
-          email,
-          password,
-        })
-        .then((res) => {
-          localStorage.setItem("token", res.data.token);
-          setLoginError("");
-          setIsLogin(true);
-          history.push("/dashboard");
-        })
-        .catch((err) => {
-          setLoginError(err.response.data.message);
-        });
+      login(formData, history);
     }
   }
 
@@ -93,7 +82,7 @@ export default function Login() {
                 name="email"
                 className="form-control"
                 placeholder="Enter Email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
               />
             </div>
             <div className="form-group">
@@ -104,7 +93,7 @@ export default function Login() {
                 name="password"
                 className="form-control"
                 placeholder="Enter Password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChange}
               />
             </div>
           </form>
