@@ -5,6 +5,7 @@ import * as api from "../api/index.js";
 // Initial state
 const initialState = {
   userName: "",
+  error_msg: "",
 };
 
 // Create context
@@ -18,11 +19,18 @@ export const GlobalProvider = ({ children }) => {
   async function login(formData, history) {
     try {
       const { data } = await api.logIn(formData);
-      dispatch({
-        type: "LOGIN",
-        payload: data,
-      });
-      history.push("/dashboard");
+      if ("token" in data) {
+        dispatch({
+          type: "LOGIN",
+          payload: data,
+        });
+        history.push("/dashboard");
+      } else {
+        dispatch({
+          type: "LOGIN_ERROR",
+          payload: data,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -56,6 +64,7 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         userName: state.userName,
+        error_msg: state.error_msg,
         login,
         register,
         logout,

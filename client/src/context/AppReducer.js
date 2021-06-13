@@ -7,6 +7,11 @@ export const AppReducer = (state, action) => {
         ...state,
         userName: action.payload.body.name,
       };
+    case "LOGIN_ERROR":
+      return {
+        ...state,
+        error_msg: action.payload.message,
+      };
     case "REGISTER":
       return {
         ...state,

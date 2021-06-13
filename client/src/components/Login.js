@@ -7,9 +7,8 @@ const initialData = { email: "", password: "" };
 export default function Login() {
   const [formData, setFormData] = useState(initialData);
   const [errors, setErrors] = useState([]);
-  const [loginError, setLoginError] = useState("");
   const [formValid, setFormValid] = useState(true);
-  const { login } = useContext(GlobalContext);
+  const { login, error_msg } = useContext(GlobalContext);
   const history = useHistory();
 
   var messages = [];
@@ -54,11 +53,11 @@ export default function Login() {
         ))}
       </div>
     );
-  } else if (loginError) {
+  } else if (error_msg) {
     errorMsg = (
       <div className="alertContainer alert alert-danger">
         <span>
-          {loginError}
+          {error_msg}
           <br />
         </span>
       </div>

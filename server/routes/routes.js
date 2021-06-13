@@ -26,7 +26,7 @@ router.post("/login", async (req, res, next) => {
         return next(error);
       }
       if (!user) {
-        return res.status(400).json({ message: info.message });
+        return res.status(200).json({ message: info.message });
       }
       req.login(user, { session: false }, async (error) => {
         if (error) return next(error);
