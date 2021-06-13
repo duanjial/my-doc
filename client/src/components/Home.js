@@ -59,7 +59,11 @@ export default function Home() {
   } else {
     home = (
       <div>
-        <h2>Here are all your documents</h2>
+        {documents && documents.length ? (
+          <h2>Here are all your documents</h2>
+        ) : (
+          <h2>You don't have any documents. Click below to create!</h2>
+        )}
         <ul>
           {loading ? (
             <div>Loading...</div>
