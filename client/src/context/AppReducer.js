@@ -2,27 +2,24 @@ export const AppReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
       localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("userName", action.payload.body.name);
       return {
         ...state,
-        isLogin: true,
         userName: action.payload.body.name,
-        userId: action.payload.body._id,
-        email: action.payload.body.email,
       };
     case "REGISTER":
       return {
         ...state,
         msg: action.payload,
       };
-    case "SET_IS_LOGIN":
+    case "LOGOUT":
+      localStorage.clear();
       return {
         ...state,
-        isLogin: action.payload,
-      };
-    case "SET_USERNAME":
-      return {
-        ...state,
-        userName: action.payload,
+        userName: "",
+        userId: "",
+        email: "",
+        isLogin: false,
       };
     default:
       return state;

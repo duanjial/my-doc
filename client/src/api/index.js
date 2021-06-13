@@ -14,3 +14,5 @@ export const fetchDocuments = () => API.get("/documents");
 export const logIn = (formData) => API.post("/login", formData);
 
 export const register = (formData) => API.post("/register", formData);
+
+export const logout = () => API.get("/logout");

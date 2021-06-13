@@ -4,10 +4,7 @@ import * as api from "../api/index.js";
 
 // Initial state
 const initialState = {
-  isLogin: false,
   userName: "",
-  userId: "",
-  email: "",
 };
 
 // Create context
@@ -18,20 +15,6 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Actions
-  function setIsLogin(isLogin) {
-    dispatch({
-      type: "SET_IS_LOGIN",
-      payload: isLogin,
-    });
-  }
-
-  function setUsername(userName) {
-    dispatch({
-      type: "SET_USERNAME",
-      payload: userName,
-    });
-  }
-
   async function login(formData, history) {
     try {
       const { data } = await api.logIn(formData);
@@ -58,15 +41,24 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  async function logout() {
+    try {
+      await api.logout();
+      dispatch({
+        type: "LOGOUT",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <GlobalContext.Provider
       value={{
-        isLogin: state.isLogin,
         userName: state.userName,
-        setIsLogin,
-        setUsername,
         login,
         register,
+        logout,
       }}
     >
       {children}

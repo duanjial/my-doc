@@ -1,23 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/GlobalState";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 export default function Navbar() {
-  const { isLogin, setIsLogin, userName, setUsername } =
-    useContext(GlobalContext);
+  const { userName, logout } = useContext(GlobalContext);
+  const [user, setUser] = useState();
 
-  const logout = () => {
-    axios
-      .get("http://localhost:3001/logout", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        localStorage.clear();
-        setIsLogin(false);
-        setUsername("");
-      })
-      .catch((err) => console.log(err));
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setUser(localStorage.getItem("userName"));
+    }
+  }, [userName]);
+
+  const handleLogout = () => {
+    logout();
+    setUser();
   };
 
   return (
@@ -40,15 +38,15 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
-          {isLogin ? (
-            <span>Welcome, {userName}</span>
+          {user ? (
+            <span>Welcome, {user}</span>
           ) : (
             <Link to="/login" className="btn btn-primary">
               Login
             </Link>
           )}
-          {isLogin ? (
-            <button className="btn btn-primary" onClick={() => logout()}>
+          {user ? (
+            <button className="btn btn-primary" onClick={() => handleLogout()}>
               Logout
             </button>
           ) : (
