@@ -9,7 +9,12 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchDocuments = () => API.get("/documents");
+export const fetchDocuments = () =>
+  API.get("/documents")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
 
 export const logIn = (formData) => API.post("/login", formData);
 

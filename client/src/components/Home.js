@@ -1,33 +1,15 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
+import { GlobalContext } from "../context/GlobalState";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 
 export default function Home() {
-  const [documents, setDocuments] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [created, setCreated] = useState(false);
   const [docId, setDocId] = useState("");
+  const { documents, getDocuments, fetchError } = useContext(GlobalContext);
 
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      await axios
-        .get("http://localhost:3001/documents", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setDocuments(res.data.documents);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setHasError(true);
-          setLoading(false);
-        });
-    };
-    fetchData();
+    getDocuments();
   }, []);
 
   function handleDelete(id) {
@@ -35,13 +17,12 @@ export default function Home() {
       .delete(`http://localhost:3001/documents/${id}`)
       .then((res) => {
         console.log(res);
-        setDocuments(documents.filter((document) => document !== id));
+        // setDocuments(documents.filter((document) => document !== id));
       })
       .catch((err) => console.log(err));
   }
 
   const handleCreate = () => {
-    console.log("creating document");
     axios
       .get("http://localhost:3001/document")
       .then((res) => {
@@ -59,30 +40,26 @@ export default function Home() {
   } else {
     home = (
       <div>
-        {documents && documents.length ? (
+        {fetchError ? (
+          <div>Error occured! </div>
+        ) : documents && documents.length ? (
           <h2>Here are all your documents</h2>
         ) : (
           <h2>You don't have any documents. Click below to create!</h2>
         )}
         <ul>
-          {loading ? (
-            <div>Loading...</div>
-          ) : hasError ? (
-            <div>Error occured!</div>
-          ) : (
-            documents.map((doc) => (
-              <li key={doc}>
-                <Link to={`/documents/${doc}`}>{doc}</Link>
-                <button
-                  type="button"
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(doc)}
-                >
-                  Delete
-                </button>
-              </li>
-            ))
-          )}
+          {documents.map((doc) => (
+            <li key={doc}>
+              <Link to={`/documents/${doc}`}>{doc}</Link>
+              <button
+                type="button"
+                className="btn btn-danger btn-sm"
+                onClick={() => handleDelete(doc)}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
         </ul>
         <button
           type="button"

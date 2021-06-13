@@ -17,6 +17,20 @@ export const AppReducer = (state, action) => {
       return {
         ...state,
         userName: "",
+        documents: [],
+        fetchError: false,
+        error_msg: "",
+      };
+    case "DOCUMENTS":
+      return {
+        ...state,
+        documents: action.payload,
+        fetchError: false,
+      };
+    case "FETCH_ERROR":
+      return {
+        ...state,
+        fetchError: true,
       };
     default:
       return state;

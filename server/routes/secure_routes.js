@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 // Documents
 router.get("/documents", async (req, res) => {
   const documents = await Document.find({ userId: req.user._id });
-  res.status(200).json({ documents: documents.map((doc) => doc._id) });
+  return res.status(200).send({ documents: documents.map((doc) => doc._id) });
 });
 
 // Delete document

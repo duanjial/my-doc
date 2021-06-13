@@ -6,6 +6,8 @@ import * as api from "../api/index.js";
 const initialState = {
   userName: "",
   error_msg: "",
+  documents: [],
+  fetchError: false,
 };
 
 // Create context
@@ -67,14 +69,33 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  async function getDocuments() {
+    try {
+      const { documents } = await api.fetchDocuments();
+      if (documents) {
+        dispatch({
+          type: "DOCUMENTS",
+          payload: documents,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: "FETCH_ERROR",
+      });
+    }
+  }
+
   return (
     <GlobalContext.Provider
       value={{
         userName: state.userName,
         error_msg: state.error_msg,
+        documents: state.documents,
+        fetchError: state.fetchError,
         login,
         register,
         logout,
+        getDocuments,
       }}
     >
       {children}
