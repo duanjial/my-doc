@@ -12,8 +12,12 @@ router.post("/register", async (req, res, next) => {
     if (!user) {
       return res.status(200).json({ message: info.message });
     }
-    return res.status(200).json({
-      message: "Register successful",
+    req.login(user, { session: false }, async (error) => {
+      if (error) return next(error);
+
+      const body = { _id: user._id, name: user.name, email: user.email };
+      const token = jwt.sign({ user: body }, "TOP_SECRET");
+      return res.status(200).send({ token, body });
     });
   })(req, res, next);
 });

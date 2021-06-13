@@ -21,13 +21,13 @@ export const GlobalProvider = ({ children }) => {
       const { data } = await api.logIn(formData);
       if ("token" in data) {
         dispatch({
-          type: "LOGIN",
+          type: "AUTH",
           payload: data,
         });
         history.push("/dashboard");
       } else {
         dispatch({
-          type: "LOGIN_ERROR",
+          type: "AUTH_ERROR",
           payload: data,
         });
       }
@@ -39,11 +39,18 @@ export const GlobalProvider = ({ children }) => {
   async function register(formData, history) {
     try {
       const { data } = await api.register(formData);
-      dispatch({
-        type: "REGISTER",
-        payload: data,
-      });
-      history.push("/dashboard");
+      if ("token" in data) {
+        dispatch({
+          type: "AUTH",
+          payload: data,
+        });
+        history.push("/dashboard");
+      } else {
+        dispatch({
+          type: "AUTH_ERROR",
+          payload: data,
+        });
+      }
     } catch (error) {
       console.log(error);
     }

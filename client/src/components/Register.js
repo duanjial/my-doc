@@ -8,9 +8,7 @@ export default function Register() {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState([]);
   const [formValid, setFormValid] = useState(true);
-  const [registerError, setRegisterError] = useState("");
-  const [registerSuccess, setRegisterSuccess] = useState(false);
-  const { register } = useContext(GlobalContext);
+  const { register, error_msg } = useContext(GlobalContext);
   const history = useHistory();
 
   var messages = [];
@@ -18,7 +16,6 @@ export default function Register() {
   useEffect(() => {
     return () => {
       setErrors([]);
-      setRegisterError("");
     };
   }, []);
 
@@ -69,11 +66,11 @@ export default function Register() {
         ))}
       </div>
     );
-  } else if (registerError) {
+  } else if (error_msg) {
     errorMsg = (
       <div className="alertContainer alert alert-danger">
         <span>
-          {registerError}
+          {error_msg}
           <br />
         </span>
       </div>
