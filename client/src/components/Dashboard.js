@@ -1,38 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../context/GlobalState";
 import Home from "./Home";
 
 export default function Dashboard(props) {
-  const { isLogin, userName } = useContext(GlobalContext);
+  const { userName } = useContext(GlobalContext);
+  const [user, setUser] = useState();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await axios
-  //       .get("http://localhost:3001/getUser", {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       })
-  //       .then((res) => {
-  //         if (res.data.user) {
-  //           // const { id, name } = res.data.user;
-  //           setIsLogin(true);
-  //           setUsername(res.data.user.name);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  //   fetchData();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      setUser(localStorage.getItem("userName"));
+    } else {
+      setUser();
+    }
+  }, [userName, token]);
 
   var dashBoard;
-  if (isLogin) {
+  if (user) {
     dashBoard = (
       <div>
-        <h1>Welcome {userName}</h1>
+        <h1>Welcome {user}</h1>
         <Home />
       </div>
     );

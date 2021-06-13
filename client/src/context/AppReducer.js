@@ -17,9 +17,6 @@ export const AppReducer = (state, action) => {
       return {
         ...state,
         userName: "",
-        userId: "",
-        email: "",
-        isLogin: false,
       };
     default:
       return state;
