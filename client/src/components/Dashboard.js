@@ -16,20 +16,14 @@ export default function Dashboard(props) {
     }
   }, [userName, token]);
 
-  var dashBoard;
-  if (user) {
-    dashBoard = (
-      <div>
-        <h1>Welcome {user}</h1>
-        <Home />
-      </div>
-    );
-  } else {
-    dashBoard = (
-      <div>
-        <h1>Please Login / Register first</h1>
-      </div>
-    );
-  }
-  return dashBoard;
+  return user ? (
+    <div>
+      <h1>Welcome {user}</h1>
+      <Home />
+    </div>
+  ) : (
+    <div>
+      <h1>Please Login / Register first</h1>
+    </div>
+  );
 }
