@@ -20,12 +20,14 @@ export const AppReducer = (state, action) => {
         documents: [],
         fetchError: false,
         error_msg: "",
+        isLoading: false,
       };
     case "DOCUMENTS":
       return {
         ...state,
         documents: action.payload,
         fetchError: false,
+        isLoading: false,
       };
     case "FETCH_ERROR":
       return {

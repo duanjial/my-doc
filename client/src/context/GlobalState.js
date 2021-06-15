@@ -8,6 +8,7 @@ const initialState = {
   error_msg: "",
   documents: [],
   fetchError: false,
+  isLoading: true,
 };
 
 // Create context
@@ -92,6 +93,7 @@ export const GlobalProvider = ({ children }) => {
         error_msg: state.error_msg,
         documents: state.documents,
         fetchError: state.fetchError,
+        isLoading: state.isLoading,
         login,
         register,
         logout,
