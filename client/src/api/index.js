@@ -16,6 +16,14 @@ export const fetchDocuments = () =>
     })
     .catch((err) => console.log(err));
 
+export const deleteDocument = (id) => API.delete(`/documents/${id}`);
+
+export const createDocument = () => {
+  API.get("/document")
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+};
+
 export const logIn = (formData) => API.post("/login", formData);
 
 export const register = (formData) => API.post("/register", formData);

@@ -29,6 +29,11 @@ export const AppReducer = (state, action) => {
         fetchError: false,
         isLoading: false,
       };
+    case "DELETE_DOCUMENT":
+      return {
+        ...state,
+        documents: state.documents.filter((doc) => doc !== action.payload.id),
+      };
     case "FETCH_ERROR":
       return {
         ...state,

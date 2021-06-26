@@ -86,6 +86,18 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  async function deleteDocument(id) {
+    try {
+      await api.deleteDocument(id);
+      dispatch({
+        type: "DELETE_DOCUMENT",
+        payload: id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -98,6 +110,7 @@ export const GlobalProvider = ({ children }) => {
         register,
         logout,
         getDocuments,
+        deleteDocument,
       }}
     >
       {children}
