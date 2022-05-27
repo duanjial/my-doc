@@ -19,7 +19,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/dashboard">
           MyDoc
@@ -39,18 +39,18 @@ export default function Navbar() {
             </li>
           </ul>
           {user ? (
-            <span>Welcome, {user}</span>
+            <span className="greeting">Welcome, {user}</span>
           ) : (
-            <Link to="/login" className="btn btn-primary">
+            <Link to="/login" className="btn btn-secondary">
               Login
             </Link>
           )}
           {user ? (
-            <button className="btn btn-primary" onClick={() => handleLogout()}>
+            <button className="btn btn-secondary" onClick={() => handleLogout()}>
               Logout
             </button>
           ) : (
-            <Link to="/register" className="btn btn-primary">
+            <Link to="/register" className="btn btn-secondary">
               Register
             </Link>
           )}

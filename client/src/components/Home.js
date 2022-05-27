@@ -1,15 +1,12 @@
 import { React, useState, useEffect, useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
-import { Link, Redirect } from "react-router-dom";
-import axios from "axios";
-import * as api from "../api/index.js";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Home() {
-  const [created, setCreated] = useState(false);
-  const [docId, setDocId] = useState("");
   const [doc, setDoc] = useState([]);
-  const { isLoading, documents, getDocuments, fetchError, deleteDocument } =
+  const { isLoading, documents, getDocuments, fetchError, deleteDocument, createDocument } =
     useContext(GlobalContext);
+  const history = useHistory();
 
   useEffect(() => {
     getDocuments();
@@ -18,73 +15,54 @@ export default function Home() {
 
   useEffect(() => {
     setDoc(documents);
-  });
+  }, [documents]);
 
   function handleDelete(id) {
     deleteDocument(id);
-    setDoc(doc.filter((doc) => doc !== id));
-    // axios
-    //   .delete(`http://localhost:3001/documents/${id}`)
-    //   .then((res) => {
-    //     console.log(res);
-    //     // setDocuments(documents.filter((document) => document !== id));
-    //   })
-    //   .catch((err) => console.log(err));
+    setDoc(documents);
   }
 
   const handleCreate = () => {
-    api.createDocument();
-    // axios
-    //   .get("http://localhost:3001/document")
-    //   .then((res) => {
-    //     setDocId(res.data.doc_id);
-    //     setCreated(true);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    createDocument(history);
   };
 
   var home;
-  if (created) {
-    home = <Redirect to={`/documents/${docId}`} />;
-  } else {
-    home = (
-      <div>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : fetchError ? (
-          <div>Error occured! </div>
-        ) : documents && documents.length ? (
-          <div>
-            <h2>Here are all your documents</h2>
-            <ul>
-              {doc.map((doc) => (
-                <li key={doc}>
-                  <Link to={`/documents/${doc}`}>{doc}</Link>
-                  <button
-                    type="button"
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(doc)}
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <h2>You don't have any documents. Click below to create!</h2>
-        )}
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => handleCreate()}
-        >
-          New Document
-        </button>
-      </div>
-    );
-  }
+  home = (
+    <div className="container-docs">
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : fetchError ? (
+        <div>Error occured! </div>
+      ) : documents && documents.length ? (
+        <div>
+          <h2>Here are all your documents</h2>
+          <ul>
+            {doc.map((doc) => (
+              <li className="li-doc" key={doc}>
+                <Link to={`/documents/${doc}`}>{doc}</Link>
+                <button
+                  type="button"
+                  className="btn btn-danger btn-sm btn-delete"
+                  onClick={() => handleDelete(doc)}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <h2>You don't have any documents. Click below to create!</h2>
+      )}
+      <button
+        type="button"
+        className="btn btn-success btn-new"
+        onClick={() => handleCreate()}
+      >
+        New Document
+      </button>
+    </div>
+  );
+  
   return home;
 }

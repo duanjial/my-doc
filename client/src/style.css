@@ -13,24 +13,42 @@ body {
   margin-top: 10px;
 }
 
+.btn-delete {
+  margin-left: 10px;
+}
+
+.li-doc {
+  margin-bottom: 15px;
+}
+
+.container-docs {
+  margin: auto;
+  width: 50%;
+}
+
 .alertContainer {
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
 .container .ql-editor {
-  width: 8.5in;
   min-height: 11in;
+  width: 100%;
   padding: 1in;
   margin: 1rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   background-color: white;
+  color: black;
 }
 
 .container .ql-container.ql-snow {
   border: none;
   display: flex;
   justify-content: center;
+}
+
+.greeting {
+  padding-right: 10px;
 }
 
 .container .ql-toolbar.ql-snow {
@@ -42,6 +60,7 @@ body {
   background-color: #f3f3f3;
   border: none;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  margin-top: 15px;
 }
 
 @page {

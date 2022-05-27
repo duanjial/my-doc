@@ -97,7 +97,7 @@ export default function Login() {
             </div>
           </form>
           <button
-            className="formBtn btn btn-lg btn-primary"
+            className="formBtn btn btn-lg btn-secondary"
             type="submit"
             onClick={(e) => handleSubmit(e)}
           >

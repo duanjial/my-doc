@@ -12,7 +12,7 @@ const TOOLBAR_OPTIONS = [
   ["bold", "italic", "underline"],
   [{ color: [] }, { background: [] }],
   [{ script: "sub" }, { script: "super" }],
-  [{ align: [] }],
+  [{ align: ["justify", "center", "right", false] }],
   ["image", "blockquote", "code-block"],
   ["clean"],
 ];

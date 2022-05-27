@@ -32,13 +32,25 @@ export const AppReducer = (state, action) => {
     case "DELETE_DOCUMENT":
       return {
         ...state,
-        documents: state.documents.filter((doc) => doc !== action.payload.id),
+        documents: state.documents.filter((doc) => doc !== action.payload),
+      };
+    case "CREATE_DOCUMENT":
+      state.documents.push(action.payload);
+      return {
+        ...state,
+        documents: state.documents,
+        curr_doc: action.payload,
+        fetchError: false,
+        isLoading: false,
       };
     case "FETCH_ERROR":
       return {
         ...state,
         fetchError: true,
       };
+    case "CREATE_ERROR":
+      console.log("create error");
+      break;
     default:
       return state;
   }

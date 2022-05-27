@@ -7,6 +7,7 @@ const initialState = {
   userName: "",
   error_msg: "",
   documents: [],
+  curr_doc: "",
   fetchError: false,
   isLoading: true,
 };
@@ -70,6 +71,21 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  function createDocument(history) {
+      api.createDocument().then((res) =>{
+        const doc_id = res?.data?.doc_id;
+        dispatch({
+          type: "CREATE_DOCUMENT",
+          payload: doc_id,
+         });
+        history.push(`/documents/${doc_id}`);
+      }).catch((err) => {
+        dispatch({
+          type: "CREATE_ERROR",
+        })
+      })
+  }
+
   async function getDocuments() {
     try {
       const { documents } = await api.fetchDocuments();
@@ -104,6 +120,7 @@ export const GlobalProvider = ({ children }) => {
         userName: state.userName,
         error_msg: state.error_msg,
         documents: state.documents,
+        curr_doc: state.curr_doc,
         fetchError: state.fetchError,
         isLoading: state.isLoading,
         login,
@@ -111,6 +128,7 @@ export const GlobalProvider = ({ children }) => {
         logout,
         getDocuments,
         deleteDocument,
+        createDocument,
       }}
     >
       {children}
