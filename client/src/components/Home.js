@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   const [docs, setDocs] = useState([]);
-  const { isLoading, documents, getDocuments, fetchError, deleteDocument, createDocument, showNewDocModal, toggleNewDocModal } =
+  const { isLoading, documents, getDocuments, fetchError, deleteDocument, showNewDocModal, toggleNewDocModal } =
     useContext(GlobalContext);
 
   useEffect(() => {

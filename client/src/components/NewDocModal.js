@@ -38,17 +38,17 @@ export default function NewDocModal() {
                             <label className="col-form-label" htmlFor="inputDefault">Name</label>
                             <input type="text" className="form-control" name="docName" placeholder="document name" id="docName" onChange={handleChange}/>
                         </div>
-                        <fieldset class="form-group">
-                            <legend class="mt-4">Who can access</legend>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="optionsRadio" id="optionsRadios1" value="option1" />
+                        <fieldset className="form-group">
+                            <legend className="mt-4">Who can access</legend>
+                            <div className="form-check">
+                                <label className="form-check-label">
+                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios1" value="option1" />
                                     Only you
                                 </label>                               
                             </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="optionsRadio" id="optionsRadios2" value="option2" />
+                            <div className="form-check">
+                                <label className="form-check-label">
+                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios2" value="option2" />
                                     Specific people
                                 </label>
                             </div>
