@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../context/GlobalState";
 import Home from "./Home";
+import NewDocModal from "./NewDocModal";
 
 export default function Dashboard(props) {
   const { userName } = useContext(GlobalContext);

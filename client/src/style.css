@@ -21,6 +21,36 @@ body {
   margin-bottom: 15px;
 }
 
+.options {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.doc-link {
+  display: inline-block;
+  width: 280px;
+}
+
+.btn-option {
+  background: transparent;
+  border: none !important;
+}
+
+.modal {
+  display: flex;
+  /* background-color: grey; */
+  background:rgba(94, 79, 79, 0.5);
+}
+
+.modal-content {
+  width: 600px;
+  height: 421px;
+}
+
+.modal-form-group {
+  width: 100%
+}
+
 .container-docs {
   margin: auto;
   width: 50%;
@@ -66,6 +96,7 @@ body {
 @page {
   margin: 1in;
 }
+
 @media print {
   body {
     background: none;

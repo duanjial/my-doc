@@ -22,6 +22,11 @@ export const AppReducer = (state, action) => {
         error_msg: "",
         isLoading: false,
       };
+    case "TOGGLE_NEW_DOC_MODAL":
+      return {
+        ...state,
+        showNewDocModal: !state.showNewDocModal
+      };
     case "DOCUMENTS":
       return {
         ...state,

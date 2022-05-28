@@ -8,6 +8,7 @@ const initialState = {
   error_msg: "",
   documents: [],
   curr_doc: "",
+  showNewDocModal: false,
   fetchError: false,
   isLoading: true,
 };
@@ -71,7 +72,14 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
-  function createDocument(history) {
+  function toggleNewDocModal() {
+    dispatch({
+      type: "TOGGLE_NEW_DOC_MODAL"
+    })
+  }
+
+  function createDocument(docName, history) {
+      console.log(docName);
       api.createDocument().then((res) =>{
         const doc_id = res?.data?.doc_id;
         dispatch({
@@ -123,12 +131,14 @@ export const GlobalProvider = ({ children }) => {
         curr_doc: state.curr_doc,
         fetchError: state.fetchError,
         isLoading: state.isLoading,
+        showNewDocModal: state.showNewDocModal,
         login,
         register,
         logout,
         getDocuments,
         deleteDocument,
         createDocument,
+        toggleNewDocModal
       }}
     >
       {children}

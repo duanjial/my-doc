@@ -1,12 +1,12 @@
 import { React, useState, useEffect, useContext } from "react";
+import NewDocModal from "./NewDocModal";
 import { GlobalContext } from "../context/GlobalState";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Home() {
-  const [doc, setDoc] = useState([]);
-  const { isLoading, documents, getDocuments, fetchError, deleteDocument, createDocument } =
+  const [docs, setDocs] = useState([]);
+  const { isLoading, documents, getDocuments, fetchError, deleteDocument, createDocument, showNewDocModal, toggleNewDocModal } =
     useContext(GlobalContext);
-  const history = useHistory();
 
   useEffect(() => {
     getDocuments();
@@ -14,16 +14,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setDoc(documents);
+    setDocs(documents);
   }, [documents]);
 
   function handleDelete(id) {
     deleteDocument(id);
-    setDoc(documents);
+    setDocs(documents);
   }
 
   const handleCreate = () => {
-    createDocument(history);
+    toggleNewDocModal();
+  };
+
+  const handleShare = (id) => {
+    console.log(id);
   };
 
   var home;
@@ -37,16 +41,17 @@ export default function Home() {
         <div>
           <h2>Here are all your documents</h2>
           <ul>
-            {doc.map((doc) => (
+            {docs.map((doc) => (
               <li className="li-doc" key={doc}>
-                <Link to={`/documents/${doc}`}>{doc}</Link>
-                <button
-                  type="button"
-                  className="btn btn-danger btn-sm btn-delete"
-                  onClick={() => handleDelete(doc)}
-                >
-                  Delete
-                </button>
+                <Link className="doc-link" to={`/documents/${doc}`}>{doc}</Link>
+                <div className="options">
+                  <button className="btn-option" onClick={() => handleDelete(doc)}>
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                  <button className="btn-option" onClick={() => handleShare(doc)}>
+                    <i className="fa-solid fa-share-nodes"></i>
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
@@ -61,6 +66,7 @@ export default function Home() {
       >
         New Document
       </button>
+      { showNewDocModal && <NewDocModal />}
     </div>
   );
   
