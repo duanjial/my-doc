@@ -2,10 +2,10 @@ export const AppReducer = (state, action) => {
   switch (action.type) {
     case "AUTH":
       localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("userName", action.payload.body.name);
+      localStorage.setItem("userName", action.payload.name);
       return {
         ...state,
-        userName: action.payload.body.name,
+        userName: action.payload.name,
       };
     case "AUTH_ERROR":
       return {
@@ -37,10 +37,9 @@ export const AppReducer = (state, action) => {
     case "DELETE_DOCUMENT":
       return {
         ...state,
-        documents: state.documents.filter((doc) => doc !== action.payload),
+        documents: state.documents.filter((doc) => doc.doc_id !== action.payload),
       };
     case "CREATE_DOCUMENT":
-      state.documents.push(action.payload);
       return {
         ...state,
         documents: state.documents,

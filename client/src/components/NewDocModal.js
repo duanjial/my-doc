@@ -2,7 +2,7 @@ import { React, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalState";
 
-const initialDocName = "";
+const initialDocName = {"docName": ""};
 
 export default function NewDocModal() {
     const history = useHistory();
@@ -10,7 +10,7 @@ export default function NewDocModal() {
     const { createDocument, toggleNewDocModal } = useContext(GlobalContext);
 
     const handleChange = (e) => {
-        setDocName(e.target.value);
+        setDocName({ ...docName, [e.target.name]: e.target.value });
       };
     
     const handleCreate = (e) => {

@@ -42,13 +42,13 @@ export default function Home() {
           <h2>Here are all your documents</h2>
           <ul>
             {docs.map((doc) => (
-              <li className="li-doc" key={doc}>
-                <Link className="doc-link" to={`/documents/${doc}`}>{doc}</Link>
+              <li className="li-doc" key={doc.doc_id}>
+                <Link className="doc-link" to={`/documents/${doc.doc_id}`}>{doc.doc_name}</Link>
                 <div className="options">
-                  <button className="btn-option" onClick={() => handleDelete(doc)}>
+                  <button className="btn-option" onClick={() => handleDelete(doc.doc_id)}>
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
-                  <button className="btn-option" onClick={() => handleShare(doc)}>
+                  <button className="btn-option" onClick={() => handleShare(doc.doc_id)}>
                     <i className="fa-solid fa-share-nodes"></i>
                   </button>
                 </div>

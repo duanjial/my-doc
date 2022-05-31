@@ -79,14 +79,13 @@ export const GlobalProvider = ({ children }) => {
   }
 
   function createDocument(docName, history) {
-      console.log(docName);
-      api.createDocument().then((res) =>{
-        const doc_id = res?.data?.doc_id;
+      api.createDocument(docName).then((res) =>{
+        const document = res?.data?.document;
         dispatch({
           type: "CREATE_DOCUMENT",
-          payload: doc_id,
+          payload: document,
          });
-        history.push(`/documents/${doc_id}`);
+        history.push(`/documents/${document.doc_id}`);
       }).catch((err) => {
         dispatch({
           type: "CREATE_ERROR",
@@ -94,20 +93,18 @@ export const GlobalProvider = ({ children }) => {
       })
   }
 
-  async function getDocuments() {
-    try {
-      const { documents } = await api.fetchDocuments();
-      if (documents) {
-        dispatch({
-          type: "DOCUMENTS",
-          payload: documents,
-        });
-      }
-    } catch (error) {
+  function getDocuments() {
+    api.fetchDocuments().then(res => {
+      const documents = res?.data?.documents;
+      dispatch({
+        type: "DOCUMENTS",
+        payload: documents,
+      });
+    }).catch(err => {
       dispatch({
         type: "FETCH_ERROR",
       });
-    }
+    })
   }
 
   async function deleteDocument(id) {

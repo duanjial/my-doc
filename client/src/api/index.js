@@ -9,17 +9,12 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchDocuments = () =>
-  API.get("/documents")
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => console.log(err));
+export const fetchDocuments = () => API.get("/documents");
 
-export const deleteDocument = (id) => API.delete(`/documents/${id}`);
+export const deleteDocument = (id) => API.delete(`/document/${id}`);
 
-export const createDocument = () => {
-  return API.get("/document");
+export const createDocument = (docName) => {
+  return API.post("/document", docName);
 };
 
 export const logIn = (formData) => API.post("/login", formData);
