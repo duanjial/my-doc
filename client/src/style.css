@@ -29,6 +29,8 @@ body {
 }
 
 .li-doc {
+  width: 420px;
+  list-style: none;
   margin-bottom: 15px;
 }
 
@@ -37,9 +39,14 @@ body {
   margin-left: 10px;
 }
 
+.doc-card {
+  width: inherit;
+}
+
 .doc-link {
   display: inline-block;
   width: 280px;
+  text-decoration: none;
 }
 
 .btn-option {

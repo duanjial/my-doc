@@ -1,6 +1,7 @@
 import { React, useState, useEffect, useContext } from "react";
 import NewDocModal from "./NewDocModal";
 import DeleteDocModal from "./DeleteDocModal";
+import DocumentCard from "./DocumentCard";
 import { GlobalContext } from "../context/GlobalState";
 import { Link } from "react-router-dom";
 
@@ -53,7 +54,7 @@ export default function Home() {
           <ul>
             {docs.map((doc) => (
               <li className="li-doc" key={doc.doc_id}>
-                <Link className="doc-link" to={`/documents/${doc.doc_id}`}>{doc.doc_name}</Link>
+                {/* <Link className="doc-link" to={`/documents/${doc.doc_id}`}>{doc.doc_name}</Link>
                 <div className="options">
                   <button className="btn-option" onClick={() => handleDelete(doc.doc_id, doc.doc_name)}>
                     <i className="fa-solid fa-trash-can"></i>
@@ -61,7 +62,8 @@ export default function Home() {
                   <button className="btn-option" onClick={() => handleShare(doc.doc_id)}>
                     <i className="fa-solid fa-share-nodes"></i>
                   </button>
-                </div>
+                </div> */}
+                <DocumentCard doc_id={doc.doc_id} doc_name={doc.doc_name} />
               </li>
             ))}
           </ul>
