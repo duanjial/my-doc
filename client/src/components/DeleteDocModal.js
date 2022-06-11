@@ -18,7 +18,10 @@ export default function DeleteDocModal() {
             <div className="modal-dialog" role="document">
                 <div className="modal-content delete-modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Delete Document {deleteDocName} ?</h5>
+                        <h5 className="modal-title">
+                            Delete Document 
+                            <i className="fa-solid fa-file-lines doc-icon"></i>{deleteDocName}?
+                        </h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleClose()}>
                             <span aria-hidden="true"></span>
                         </button>

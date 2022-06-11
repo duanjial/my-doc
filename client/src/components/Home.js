@@ -28,11 +28,6 @@ export default function Home() {
     setDocs(documents);
   }, [documents]);
 
-  function handleDelete(doc_id, doc_name) {
-    toggleDeleteDocModal(doc_id, doc_name);
-    setDocs(documents);
-  }
-
   const handleCreate = () => {
     toggleNewDocModal();
   };
@@ -54,15 +49,6 @@ export default function Home() {
           <ul>
             {docs.map((doc) => (
               <li className="li-doc" key={doc.doc_id}>
-                {/* <Link className="doc-link" to={`/documents/${doc.doc_id}`}>{doc.doc_name}</Link>
-                <div className="options">
-                  <button className="btn-option" onClick={() => handleDelete(doc.doc_id, doc.doc_name)}>
-                    <i className="fa-solid fa-trash-can"></i>
-                  </button>
-                  <button className="btn-option" onClick={() => handleShare(doc.doc_id)}>
-                    <i className="fa-solid fa-share-nodes"></i>
-                  </button>
-                </div> */}
                 <DocumentCard doc_id={doc.doc_id} doc_name={doc.doc_name} />
               </li>
             ))}
