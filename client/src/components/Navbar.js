@@ -42,6 +42,7 @@ export default function Navbar() {
           </ul>
           {user ? (
             <Link to="/profile" className="greeting">
+              <i className="fa-solid fa-user-astronaut avatar"></i>
               {user}
             </Link>
             // <span className="greeting">{user}</span>

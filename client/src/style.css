@@ -28,6 +28,15 @@ body {
   font-size: 16px;
 }
 
+.avatar {
+  margin-right: 5px;
+}
+
+.dashboard-avatar {
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
 .li-doc {
   width: 420px;
   list-style: none;

@@ -19,7 +19,10 @@ export default function Dashboard(props) {
 
   return user ? (
     <div>
-      <h1>Welcome {user}</h1>
+      <h1>Welcome 
+        <i className="fa-solid fa-user-astronaut dashboard-avatar"></i>
+        {user}
+      </h1>
       <Home />
     </div>
   ) : (
