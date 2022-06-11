@@ -27,6 +27,13 @@ export const AppReducer = (state, action) => {
         ...state,
         showNewDocModal: !state.showNewDocModal
       };
+    case "TOGGLE_DELETE_DOC_MODAL":
+      return {
+        ...state,
+        showDeleteDocModal: !state.showDeleteDocModal,
+        deleteDocId: action.payload.doc_id,
+        deleteDocName: action.payload.doc_name
+      };
     case "DOCUMENTS":
       return {
         ...state,

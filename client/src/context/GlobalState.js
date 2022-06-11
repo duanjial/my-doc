@@ -8,7 +8,10 @@ const initialState = {
   error_msg: "",
   documents: [],
   curr_doc: "",
+  deleteDocId: "",
+  deleteDocName: "",
   showNewDocModal: false,
+  showDeleteDocModal: false,
   fetchError: false,
   isLoading: true,
 };
@@ -78,6 +81,15 @@ export const GlobalProvider = ({ children }) => {
     })
   }
 
+  function toggleDeleteDocModal(id, name) {
+    const doc_id = id ?? "";
+    const doc_name = name ?? "";
+    dispatch({
+      type: "TOGGLE_DELETE_DOC_MODAL",
+      payload: {doc_id, doc_name}
+    })
+  }
+
   function createDocument(docName, history) {
       api.createDocument(docName).then((res) =>{
         const document = res?.data?.document;
@@ -101,9 +113,16 @@ export const GlobalProvider = ({ children }) => {
         payload: documents,
       });
     }).catch(err => {
-      dispatch({
-        type: "FETCH_ERROR",
-      });
+      if (err.response) {
+        dispatch({
+          type: "LOGOUT",
+        });
+      }else {
+        console.log(err);
+        dispatch({
+          type: "FETCH_ERROR",
+        });
+      }
     })
   }
 
@@ -128,14 +147,18 @@ export const GlobalProvider = ({ children }) => {
         curr_doc: state.curr_doc,
         fetchError: state.fetchError,
         isLoading: state.isLoading,
+        deleteDocId: state.deleteDocId,
+        deleteDocName: state.deleteDocName,
         showNewDocModal: state.showNewDocModal,
+        showDeleteDocModal: state.showDeleteDocModal,
         login,
         register,
         logout,
         getDocuments,
         deleteDocument,
         createDocument,
-        toggleNewDocModal
+        toggleNewDocModal,
+        toggleDeleteDocModal
       }}
     >
       {children}

@@ -4,6 +4,7 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { io } from "socket.io-client";
 import { useParams } from "react-router-dom";
+import Dashboard from "./Dashboard";
 
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -23,6 +24,9 @@ export default function TextEditor() {
   const { id: documentId } = useParams();
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
+
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const s = io("http://localhost:3001");
     setSocket(s);
@@ -91,5 +95,8 @@ export default function TextEditor() {
     setQuill(q);
   }, []);
 
+  if (!token) {
+    return <Dashboard />
+  }
   return <div className="container" ref={wrapperRef}></div>;
 }

@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../context/GlobalState";
 import Home from "./Home";
+import Login from "./Login";
 
 export default function Dashboard(props) {
   const { userName } = useContext(GlobalContext);
@@ -22,8 +23,6 @@ export default function Dashboard(props) {
       <Home />
     </div>
   ) : (
-    <div>
-      <h1>Please Login / Register first</h1>
-    </div>
+    <Login />
   );
 }

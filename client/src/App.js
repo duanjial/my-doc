@@ -11,6 +11,7 @@ import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import About from "./components/About";
 import Navbar from "./components/Navbar";
+import Profile from "./components/Profile";
 import axios from "axios";
 import { GlobalProvider } from "./context/GlobalState";
 
@@ -34,6 +35,9 @@ function App() {
             path="/dashboard"
             render={(props) => <Dashboard {...props} />}
           />
+          <Route path="/profile">
+            <Profile />
+          </Route>
           <Route path="/about">
             <About />
           </Route>

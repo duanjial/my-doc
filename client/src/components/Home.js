@@ -1,11 +1,21 @@
 import { React, useState, useEffect, useContext } from "react";
 import NewDocModal from "./NewDocModal";
+import DeleteDocModal from "./DeleteDocModal";
 import { GlobalContext } from "../context/GlobalState";
 import { Link } from "react-router-dom";
 
 export default function Home() {
   const [docs, setDocs] = useState([]);
-  const { isLoading, documents, getDocuments, fetchError, deleteDocument, showNewDocModal, toggleNewDocModal } =
+  const { 
+    isLoading, 
+    documents, 
+    getDocuments, 
+    fetchError, 
+    showNewDocModal, 
+    toggleNewDocModal,
+    showDeleteDocModal,
+    toggleDeleteDocModal,
+   } =
     useContext(GlobalContext);
 
   useEffect(() => {
@@ -17,8 +27,8 @@ export default function Home() {
     setDocs(documents);
   }, [documents]);
 
-  function handleDelete(id) {
-    deleteDocument(id);
+  function handleDelete(doc_id, doc_name) {
+    toggleDeleteDocModal(doc_id, doc_name);
     setDocs(documents);
   }
 
@@ -45,7 +55,7 @@ export default function Home() {
               <li className="li-doc" key={doc.doc_id}>
                 <Link className="doc-link" to={`/documents/${doc.doc_id}`}>{doc.doc_name}</Link>
                 <div className="options">
-                  <button className="btn-option" onClick={() => handleDelete(doc.doc_id)}>
+                  <button className="btn-option" onClick={() => handleDelete(doc.doc_id, doc.doc_name)}>
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
                   <button className="btn-option" onClick={() => handleShare(doc.doc_id)}>
@@ -66,6 +76,7 @@ export default function Home() {
       >
         New Document
       </button>
+      { showDeleteDocModal && <DeleteDocModal /> }
       { showNewDocModal && <NewDocModal />}
     </div>
   );

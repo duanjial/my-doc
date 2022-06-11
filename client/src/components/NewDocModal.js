@@ -42,13 +42,13 @@ export default function NewDocModal() {
                             <legend className="mt-4">Who can access</legend>
                             <div className="form-check">
                                 <label className="form-check-label">
-                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios1" value="option1" />
+                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios1" value="option1"/>
                                     Only you
                                 </label>                               
                             </div>
                             <div className="form-check">
                                 <label className="form-check-label">
-                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios2" value="option2" />
+                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios2" value="option2"/>
                                     Specific people
                                 </label>
                             </div>

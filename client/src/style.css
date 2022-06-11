@@ -17,6 +17,17 @@ body {
   margin-left: 10px;
 }
 
+.btn-login {
+  margin-right: 10px;
+}
+
+.greeting {
+  color: #FFFFFF;
+  margin-right: 10px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
 .li-doc {
   margin-bottom: 15px;
 }
@@ -39,12 +50,17 @@ body {
 .modal {
   display: flex;
   /* background-color: grey; */
-  background:rgba(94, 79, 79, 0.5);
+  background:rgba(94, 79, 79, 0.6);
 }
 
 .modal-content {
   width: 600px;
   height: 421px;
+}
+
+.delete-modal-content {
+  width: 400px;
+  height: 160px;
 }
 
 .modal-form-group {

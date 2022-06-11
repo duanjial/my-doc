@@ -6,12 +6,14 @@ export default function Navbar() {
   const { userName, logout } = useContext(GlobalContext);
   const [user, setUser] = useState();
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (token) {
       setUser(localStorage.getItem("userName"));
+    }else {
+      setUser();
     }
-  }, [userName]);
+  }, [userName, token]);
 
   const handleLogout = () => {
     logout();
@@ -19,7 +21,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/dashboard">
           MyDoc
@@ -39,9 +41,12 @@ export default function Navbar() {
             </li>
           </ul>
           {user ? (
-            <span className="greeting">Welcome, {user}</span>
+            <Link to="/profile" className="greeting">
+              {user}
+            </Link>
+            // <span className="greeting">{user}</span>
           ) : (
-            <Link to="/login" className="btn btn-secondary">
+            <Link to="/login" className="btn btn-secondary btn-login">
               Login
             </Link>
           )}
