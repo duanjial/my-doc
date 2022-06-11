@@ -7,6 +7,9 @@ const initialDocName = {"docName": ""};
 export default function NewDocModal() {
     const history = useHistory();
     const [docName, setDocName] = useState(initialDocName);
+    const [permission, setPermission] = useState("only you");
+    const [selected, setSelected] = useState(1);
+
     const { createDocument, toggleNewDocModal } = useContext(GlobalContext);
 
     const handleChange = (e) => {
@@ -23,6 +26,16 @@ export default function NewDocModal() {
         toggleNewDocModal();
     };
     
+    const onChange1 = (e) => {
+        setPermission(e.target.value);
+        setSelected(1);
+    }
+    
+    const onChange2 = (e) => {
+        setPermission(e.target.value);
+        setSelected(2);
+    }
+  
     return (
         <div className="modal">
             <div className="modal-dialog" role="document">
@@ -42,13 +55,13 @@ export default function NewDocModal() {
                             <legend className="mt-4">Who can access</legend>
                             <div className="form-check">
                                 <label className="form-check-label">
-                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios1" value="option1"/>
+                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios1" value="only you" checked={selected === 1} onChange={onChange1}/>
                                     Only you
                                 </label>                               
                             </div>
                             <div className="form-check">
                                 <label className="form-check-label">
-                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios2" value="option2"/>
+                                    <input type="radio" className="form-check-input" name="optionsRadio" id="optionsRadios2" value="specific" checked={selected === 2} onChange={onChange2}/>
                                     Specific people
                                 </label>
                             </div>

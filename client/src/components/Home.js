@@ -71,7 +71,7 @@ export default function Home() {
       )}
       <button
         type="button"
-        className="btn btn-success btn-new"
+        className="btn btn-outline-secondary"
         onClick={() => handleCreate()}
       >
         New Document
