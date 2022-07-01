@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:3001" });
+const API = axios.create({ baseURL: "http://carlo.local:3001" });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("token")) {
@@ -16,6 +16,8 @@ export const deleteDocument = (id) => API.delete(`/document/${id}`);
 export const createDocument = (docName) => {
   return API.post("/document", docName);
 };
+
+export const updateDocument = (id) => API.post(`/documents/${id}`);
 
 export const logIn = (formData) => API.post("/login", formData);
 

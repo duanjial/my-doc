@@ -21,6 +21,7 @@ export const AppReducer = (state, action) => {
         fetchError: false,
         error_msg: "",
         isLoading: false,
+        isLogout: true
       };
     case "TOGGLE_NEW_DOC_MODAL":
       return {
@@ -46,6 +47,11 @@ export const AppReducer = (state, action) => {
         ...state,
         documents: state.documents.filter((doc) => doc.doc_id !== action.payload),
       };
+    case "UPDATE_USERS":
+      return {
+        ...state,
+        users: action.payload
+      }
     case "CREATE_DOCUMENT":
       return {
         ...state,

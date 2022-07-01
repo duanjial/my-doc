@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
+import { GlobalContext } from "../context/GlobalState";
 import React from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
@@ -24,14 +25,18 @@ export default function TextEditor() {
   const { id: documentId } = useParams();
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
+  const { updateUserList, users } = useContext(GlobalContext);
 
   const token = localStorage.getItem("token");
+  const user_name = localStorage.getItem("userName");
 
   useEffect(() => {
-    const s = io("http://localhost:3001");
+    const s = io(`http://carlo.local:3001`);
     setSocket(s);
     return () => {
+      s.emit("custom-disconnect", {"doc_id": documentId, "user_name": user_name});
       s.disconnect();
+      updateUserList([]);
     };
   }, []);
 
@@ -39,14 +44,14 @@ export default function TextEditor() {
     if (socket == null || quill == null) return;
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
-      socket.emit("send-changes", delta);
+      socket.emit("send-changes", {"doc_id": documentId, "delta": delta});
     };
 
     quill.on("text-change", handler);
     return () => {
       quill.off("text-change", handler);
     };
-  }, [socket, quill]);
+  }, [socket, quill, documentId]);
 
   useEffect(() => {
     if (socket == null || quill == null) return;
@@ -61,24 +66,31 @@ export default function TextEditor() {
 
   useEffect(() => {
     if (socket == null || quill == null) return;
+    socket.on("update-user-list", (users) => {
+      updateUserList(users);
+    })
+  }, [socket, quill, updateUserList]);
+
+  useEffect(() => {
+    if (socket == null || quill == null) return;
 
     socket.once("load-document", (document) => {
       quill.setContents(document);
       quill.enable();
     });
-    socket.emit("get-document", documentId);
-  }, [socket, quill, documentId]);
+    socket.emit("get-document", {"doc_id": documentId, "user_name": user_name});
+  }, [socket, quill, documentId, user_name]);
 
   useEffect(() => {
     if (socket == null || quill == null) return;
     const interval = setInterval(() => {
-      socket.emit("save-document", quill.getContents());
+      socket.emit("save-document", {"doc_id": documentId, "content": quill.getContents()});
     }, SAVE_INTERVAL_MS);
 
     return () => {
       clearInterval(interval);
     };
-  }, [socket, quill]);
+  }, [socket, quill, documentId]);
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
@@ -98,5 +110,18 @@ export default function TextEditor() {
   if (!token) {
     return <Dashboard />
   }
-  return <div className="container" ref={wrapperRef}></div>;
+  return (
+    <React.Fragment>
+      <div>
+        <ul className="ul-user">
+          {users.map((user) => (
+            <li className="li-user" key={user}>
+              <p>{user}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="container" ref={wrapperRef}></div>
+    </React.Fragment>
+  )
 }

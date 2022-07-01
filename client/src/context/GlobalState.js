@@ -7,6 +7,7 @@ const initialState = {
   userName: "",
   error_msg: "",
   documents: [],
+  users: [],
   curr_doc: "",
   deleteDocId: "",
   deleteDocName: "",
@@ -14,6 +15,7 @@ const initialState = {
   showDeleteDocModal: false,
   fetchError: false,
   isLoading: true,
+  isLogout: false
 };
 
 // Create context
@@ -91,7 +93,7 @@ export const GlobalProvider = ({ children }) => {
   }
 
   function createDocument(docName, history) {
-      api.createDocument(docName).then((res) =>{
+      api.createDocument(docName).then((res) => {
         const document = res?.data?.document;
         dispatch({
           type: "CREATE_DOCUMENT",
@@ -103,6 +105,21 @@ export const GlobalProvider = ({ children }) => {
           type: "CREATE_ERROR",
         })
       })
+  }
+
+  async function updateDocument(docId) {
+    try {
+      await api.updateDocument(docId);
+    }catch (err) {
+      console.log(err);
+    }
+  }
+
+  function updateUserList(users) {
+    dispatch({
+      type: "UPDATE_USERS",
+      payload: users
+    })
   }
 
   function getDocuments() {
@@ -144,9 +161,11 @@ export const GlobalProvider = ({ children }) => {
         userName: state.userName,
         error_msg: state.error_msg,
         documents: state.documents,
+        users: state.users,
         curr_doc: state.curr_doc,
         fetchError: state.fetchError,
         isLoading: state.isLoading,
+        isLogout: state.isLogout,
         deleteDocId: state.deleteDocId,
         deleteDocName: state.deleteDocName,
         showNewDocModal: state.showNewDocModal,
@@ -157,8 +176,10 @@ export const GlobalProvider = ({ children }) => {
         getDocuments,
         deleteDocument,
         createDocument,
+        updateDocument,
         toggleNewDocModal,
-        toggleDeleteDocModal
+        toggleDeleteDocModal,
+        updateUserList
       }}
     >
       {children}

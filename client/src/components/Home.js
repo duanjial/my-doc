@@ -3,7 +3,6 @@ import NewDocModal from "./NewDocModal";
 import DeleteDocModal from "./DeleteDocModal";
 import DocumentCard from "./DocumentCard";
 import { GlobalContext } from "../context/GlobalState";
-import { Link } from "react-router-dom";
 
 export default function Home() {
   const [docs, setDocs] = useState([]);
@@ -15,7 +14,6 @@ export default function Home() {
     showNewDocModal, 
     toggleNewDocModal,
     showDeleteDocModal,
-    toggleDeleteDocModal,
    } =
     useContext(GlobalContext);
 

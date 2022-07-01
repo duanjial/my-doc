@@ -122,6 +122,17 @@ body {
   padding-right: 10px;
 }
 
+.ul-user {
+  overflow-x: hidden;
+  white-space: nowrap;
+  height: 20px;
+}
+
+.li-user {
+  display: inline-block;
+  margin-left: 5px;
+}
+
 .container .ql-toolbar.ql-snow {
   display: flex;
   justify-content: center;
