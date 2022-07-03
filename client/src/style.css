@@ -122,16 +122,23 @@ body {
   padding-right: 10px;
 }
 
-.ul-user {
-  overflow-x: hidden;
+.ul-users {
+  margin: 10px 0 0 0;
+}
+
+span.user-pill.nav-link.active.badge.rounded-pill.bg-light {
+  color: #000000;
+}
+/* .ul-user {
   white-space: nowrap;
   height: 20px;
+  list-style-type: none;
 }
 
 .li-user {
-  display: inline-block;
   margin-left: 5px;
-}
+  float: right;
+} */
 
 .container .ql-toolbar.ql-snow {
   display: flex;

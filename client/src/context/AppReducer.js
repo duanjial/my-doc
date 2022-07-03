@@ -3,6 +3,7 @@ export const AppReducer = (state, action) => {
     case "AUTH":
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("userName", action.payload.name);
+      localStorage.setItem("userId", action.payload.user_id);
       return {
         ...state,
         userName: action.payload.name,

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, useContext } from "react";
+import StatusBar from "./StatusBar";
 import { GlobalContext } from "../context/GlobalState";
 import React from "react";
 import Quill from "quill";
@@ -29,6 +30,7 @@ export default function TextEditor() {
 
   const token = localStorage.getItem("token");
   const user_name = localStorage.getItem("userName");
+  const user_id = localStorage.getItem("userId");
 
   useEffect(() => {
     const s = io(`http://carlo.local:3001`);
@@ -103,7 +105,7 @@ export default function TextEditor() {
       modules: { toolbar: TOOLBAR_OPTIONS },
     });
     q.disable();
-    q.setText("Loading...");
+    q.setText("");
     setQuill(q);
   }, []);
 
@@ -112,15 +114,7 @@ export default function TextEditor() {
   }
   return (
     <React.Fragment>
-      <div>
-        <ul className="ul-user">
-          {users.map((user) => (
-            <li className="li-user" key={user}>
-              <p>{user}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <StatusBar users={users} />
       <div className="container" ref={wrapperRef}></div>
     </React.Fragment>
   )
