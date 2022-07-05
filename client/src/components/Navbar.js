@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   const { userName, logout, socket } = useContext(GlobalContext);
   const [user, setUser] = useState();
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -42,10 +43,19 @@ export default function Navbar() {
             </li>
           </ul>
           {user && (
-            <Link className="notification" to="#">
-              <i className="fa-solid fa-bell bell-notification"></i>
-              <div className="counter">2</div>
-            </Link>
+            <div className="notification-container">
+              <Link className="notification" to="#" onClick={()=>setShowNotifications(!showNotifications)}>
+                <i className="fa-solid fa-bell bell-notification"></i>
+                <div className="counter">2</div>
+              </Link>
+              {showNotifications && (
+                <div className="notifications list-group">
+                  <span className="list-group-item list-group-item-action active">Cras justo odio</span>
+                  <span className="list-group-item list-group-item-action active">Dapibus ac facilisis in</span>
+                  <button type="button" className="btn btn-outline-secondary n-button">Mark as read</button>
+                </div>
+              )}
+            </div>
           )}
           {user ? (
             <Link to="/profile" className="greeting">
