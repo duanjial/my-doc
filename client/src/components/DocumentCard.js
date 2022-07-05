@@ -4,26 +4,19 @@ import { GlobalContext } from "../context/GlobalState";
 
 export default function DocumentCard(props) {
     const { 
-        isLoading, 
-        documents, 
-        getDocuments, 
-        fetchError, 
-        showNewDocModal, 
-        toggleNewDocModal,
-        showDeleteDocModal,
         toggleDeleteDocModal,
+        toggleShareDocModal,
        } =
         useContext(GlobalContext);
     const { doc_id, doc_name } = props;
 
     function handleDelete(doc_id, doc_name) {
-       console.log(doc_id);
-       console.log(doc_name);
        toggleDeleteDocModal(doc_id, doc_name);
     };
 
-    const handleShare = (id) => {
-        console.log(id);
+    const handleShare = (doc_id, doc_name) => {
+        console.log(doc_id);
+        toggleShareDocModal(doc_id, doc_name);
     };
     
     return (
@@ -39,7 +32,7 @@ export default function DocumentCard(props) {
                   <button className="btn-option" onClick={() => handleDelete(doc_id, doc_name)}>
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
-                  <button className="btn-option" onClick={() => handleShare(doc_id)}>
+                  <button className="btn-option" onClick={() => handleShare(doc_id, doc_name)}>
                     <i className="fa-solid fa-share-nodes"></i>
                   </button>
                 </div>

@@ -17,6 +17,8 @@ export const createDocument = (docName) => {
   return API.post("/document", docName);
 };
 
+export const shareDocument = (doc) => API.post("/share", doc);
+
 export const updateDocument = (id) => API.post(`/documents/${id}`);
 
 export const logIn = (formData) => API.post("/login", formData);

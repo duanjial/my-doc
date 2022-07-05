@@ -30,6 +30,38 @@ body {
 
 .avatar {
   margin-right: 5px;
+  font-size: large;
+}
+
+.notification {
+  margin-right: 20px;
+  color:#FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  text-decoration: none;
+}
+
+.bell-notification {
+  font-size: large;
+}
+
+.counter {
+  width: 12px;
+  height: 12px;
+  background-color: red;
+  color: #FFFFFF;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  text-decoration: none;
+  top: -5px;
+  right: -5px;
 }
 
 .dashboard-avatar {
@@ -86,6 +118,11 @@ body {
 .delete-modal-content {
   width: 400px;
   height: 160px;
+}
+
+.share-modal-content {
+  width: 600px;
+  height: 321px;
 }
 
 .modal-form-group {

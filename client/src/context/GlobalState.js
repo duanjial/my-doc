@@ -11,8 +11,12 @@ const initialState = {
   curr_doc: "",
   deleteDocId: "",
   deleteDocName: "",
+  shareDocId: "",
+  shareDocName: "",
+  socket: null,
   showNewDocModal: false,
   showDeleteDocModal: false,
+  showShareDocModal: false,
   fetchError: false,
   isLoading: true,
   isLogout: false
@@ -83,12 +87,28 @@ export const GlobalProvider = ({ children }) => {
     })
   }
 
+  function toggleShareDocModal(id, name) {
+    const doc_id = id ?? "";
+    const doc_name = name ?? "";
+    dispatch({
+      type: "TOGGLE_SHARE_DOC_MODAL",
+      payload: {doc_id, doc_name}
+    })
+  }
+  
   function toggleDeleteDocModal(id, name) {
     const doc_id = id ?? "";
     const doc_name = name ?? "";
     dispatch({
       type: "TOGGLE_DELETE_DOC_MODAL",
       payload: {doc_id, doc_name}
+    })
+  }
+
+  function setSocket(socket) {
+    dispatch({
+      type: "SET_SOCKET",
+      payload: {socket}
     })
   }
 
@@ -155,6 +175,17 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  async function shareDocument(doc) {
+    try {
+      await api.shareDocument(doc);
+      dispatch({
+        type: "SHARE_DOCUMENT"
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -170,15 +201,22 @@ export const GlobalProvider = ({ children }) => {
         deleteDocName: state.deleteDocName,
         showNewDocModal: state.showNewDocModal,
         showDeleteDocModal: state.showDeleteDocModal,
+        showShareDocModal: state.showShareDocModal,
+        shareDocId: state.shareDocId,
+        shareDocName: state.shareDocName,
+        socket: state.socket,
         login,
         register,
         logout,
+        setSocket,
         getDocuments,
         deleteDocument,
         createDocument,
         updateDocument,
+        shareDocument,
         toggleNewDocModal,
         toggleDeleteDocModal,
+        toggleShareDocModal,
         updateUserList
       }}
     >

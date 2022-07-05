@@ -22,7 +22,8 @@ export const AppReducer = (state, action) => {
         fetchError: false,
         error_msg: "",
         isLoading: false,
-        isLogout: true
+        isLogout: true,
+        socket: null
       };
     case "TOGGLE_NEW_DOC_MODAL":
       return {
@@ -36,6 +37,13 @@ export const AppReducer = (state, action) => {
         deleteDocId: action.payload.doc_id,
         deleteDocName: action.payload.doc_name
       };
+    case "TOGGLE_SHARE_DOC_MODAL":
+      return {
+        ...state,
+        showShareDocModal: !state.showShareDocModal,
+        shareDocId: action.payload.doc_id,
+        shareDocName: action.payload.doc_name
+      }
     case "DOCUMENTS":
       return {
         ...state,
@@ -48,6 +56,15 @@ export const AppReducer = (state, action) => {
         ...state,
         documents: state.documents.filter((doc) => doc.doc_id !== action.payload),
       };
+    case "SET_SOCKET":
+      return {
+        ...state,
+        socket: action.payload.socket
+      }
+    case "SHARE_DOCUMENT":
+      return {
+        ...state
+      }
     case "UPDATE_USERS":
       return {
         ...state,

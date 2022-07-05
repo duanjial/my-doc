@@ -1,26 +1,49 @@
 import { React, useState, useEffect, useContext } from "react";
 import NewDocModal from "./NewDocModal";
+import ShareDocModal from "./ShareDocModal";
 import DeleteDocModal from "./DeleteDocModal";
 import DocumentCard from "./DocumentCard";
+import { io } from "socket.io-client";
 import { GlobalContext } from "../context/GlobalState";
 
 export default function Home() {
   const [docs, setDocs] = useState([]);
+  const [user, setUser] = useState();
   const { 
     isLoading, 
+    userName,
     documents, 
     getDocuments, 
     fetchError, 
+    socket,
+    setSocket,
     showNewDocModal, 
     toggleNewDocModal,
     showDeleteDocModal,
+    showShareDocModal,
    } =
     useContext(GlobalContext);
 
   useEffect(() => {
+    if (socket == null) {
+      setSocket(io(`http://carlo.local:3001`));
+    }
     getDocuments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (token) {
+      setUser({"user_id": localStorage.getItem("userId"), "user_name": localStorage.getItem("userName")});
+    }else {
+      setUser();
+    }
+  }, [userName, token]);
+
+  useEffect(() => {
+    socket?.emit("new-user", user.user_id);
+  }, [socket, user]);
 
   useEffect(() => {
     setDocs(documents);
@@ -28,10 +51,6 @@ export default function Home() {
 
   const handleCreate = () => {
     toggleNewDocModal();
-  };
-
-  const handleShare = (id) => {
-    console.log(id);
   };
 
   var home;
@@ -64,6 +83,7 @@ export default function Home() {
       </button>
       { showDeleteDocModal && <DeleteDocModal /> }
       { showNewDocModal && <NewDocModal />}
+      { showShareDocModal && <ShareDocModal /> }
     </div>
   );
   

@@ -7,7 +7,7 @@ export default function StatusBar(props) {
         <ul className="ul-users nav nav-pills">
             {users.map(user => (
                 <li className="nav-item" key={user}>
-                    <span class="user-pill nav-link active badge rounded-pill bg-light">{user}</span>
+                    <span className="user-pill nav-link active badge rounded-pill bg-light">{user}</span>
                 </li>
             ))}
         </ul>

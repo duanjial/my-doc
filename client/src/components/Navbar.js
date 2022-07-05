@@ -3,7 +3,7 @@ import { GlobalContext } from "../context/GlobalState";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const { userName, logout } = useContext(GlobalContext);
+  const { userName, logout, socket } = useContext(GlobalContext);
   const [user, setUser] = useState();
 
   const token = localStorage.getItem("token");
@@ -17,6 +17,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
+    socket.disconnect();
     setUser();
   };
 
@@ -40,6 +41,12 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
+          {user && (
+            <Link className="notification" to="#">
+              <i className="fa-solid fa-bell bell-notification"></i>
+              <div className="counter">2</div>
+            </Link>
+          )}
           {user ? (
             <Link to="/profile" className="greeting">
               <i className="fa-solid fa-user-astronaut avatar"></i>
