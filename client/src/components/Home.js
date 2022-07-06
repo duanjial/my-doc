@@ -2,6 +2,7 @@ import { React, useState, useEffect, useContext } from "react";
 import NewDocModal from "./NewDocModal";
 import ShareDocModal from "./ShareDocModal";
 import DeleteDocModal from "./DeleteDocModal";
+import SharedDocCard from "./SharedDocCard";
 import DocumentCard from "./DocumentCard";
 import { io } from "socket.io-client";
 import { GlobalContext } from "../context/GlobalState";
@@ -42,7 +43,7 @@ export default function Home() {
   }, [userName, token]);
 
   useEffect(() => {
-    socket?.emit("new-user", user.user_id);
+    socket?.emit("new-user", localStorage.getItem("userId"));
   }, [socket, user]);
 
   useEffect(() => {
@@ -55,32 +56,38 @@ export default function Home() {
 
   var home;
   home = (
-    <div className="container-docs">
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : fetchError ? (
-        <div>Error occured! </div>
-      ) : documents && documents.length ? (
-        <div>
-          <h2>Here are all your documents</h2>
-          <ul>
-            {docs.map((doc) => (
-              <li className="li-doc" key={doc.doc_id}>
-                <DocumentCard doc_id={doc.doc_id} doc_name={doc.doc_name} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <h2>You don't have any documents. Click below to create!</h2>
-      )}
-      <button
-        type="button"
-        className="btn btn-outline-secondary"
-        onClick={() => handleCreate()}
-      >
-        New Document
-      </button>
+    <div className="dashboard">
+      <div className="container-docs">
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : fetchError ? (
+          <div>Error occured! </div>
+        ) : documents && documents.length ? (
+          <div>
+            <h2>Here are all your documents</h2>
+            <ul>
+              {docs.map((doc) => (
+                <li className="li-doc" key={doc.doc_id}>
+                  <DocumentCard doc_id={doc.doc_id} doc_name={doc.doc_name} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <h2>You don't have any documents. Click below to create!</h2>
+        )}
+        <button
+          type="button"
+          className="btn btn-outline-secondary btn-new-doc"
+          onClick={() => handleCreate()}
+        >
+          New Document
+        </button>
+      </div>
+      <div className="shared-doc">
+        <h2>Documents shared with you</h2>
+        <SharedDocCard />
+      </div>
       { showDeleteDocModal && <DeleteDocModal /> }
       { showNewDocModal && <NewDocModal />}
       { showShareDocModal && <ShareDocModal /> }

@@ -6,6 +6,7 @@ export default function Navbar() {
   const { userName, logout, socket } = useContext(GlobalContext);
   const [user, setUser] = useState();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -16,10 +17,23 @@ export default function Navbar() {
     }
   }, [userName, token]);
 
+  useEffect(() => {
+    socket?.on("get-notification", (data) => {
+      console.log(data);
+      setNotifications((prev) => [...prev, data]);
+    });
+  }, [socket]);
+
   const handleLogout = () => {
     logout();
+    setNotifications([]);
     socket.disconnect();
     setUser();
+  };
+
+  const handleRead = () => {
+    setNotifications([]);
+    setShowNotifications(false);
   };
 
   return (
@@ -44,15 +58,20 @@ export default function Navbar() {
           </ul>
           {user && (
             <div className="notification-container">
-              <Link className="notification" to="#" onClick={()=>setShowNotifications(!showNotifications)}>
+              <Link className="notification" to="#" onClick={()=>setShowNotifications(notifications.length > 0 && !showNotifications)}>
                 <i className="fa-solid fa-bell bell-notification"></i>
-                <div className="counter">2</div>
+                {notifications.length > 0 && (
+                  <div className="counter">{notifications.length}</div>
+                )}
               </Link>
               {showNotifications && (
                 <div className="notifications list-group">
-                  <span className="list-group-item list-group-item-action active">Cras justo odio</span>
-                  <span className="list-group-item list-group-item-action active">Dapibus ac facilisis in</span>
-                  <button type="button" className="btn btn-outline-secondary n-button">Mark as read</button>
+                  {notifications.map(notification => (
+                    <span className="list-group-item list-group-item-action active" key={notification.doc_id}>{notification.sender} has shared
+                    <Link to={`/documents/${notification.doc_id}`} onClick={()=>setShowNotifications(false)}>&nbsp;{notification.doc_name}</Link>
+                    &nbsp;with you!</span>
+                  ))}
+                  <button type="button" className="btn btn-outline-light n-button" onClick={handleRead}>Mark as read</button>
                 </div>
               )}
             </div>

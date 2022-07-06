@@ -6,7 +6,7 @@ const initialRecipient = {"recipient": ""};
 export default function ShareDocModal() {
     const [recipient, setRecipient] = useState(initialRecipient);
 
-    const { toggleShareDocModal, shareDocId, shareDocName, shareDocument } = useContext(GlobalContext);
+    const { toggleShareDocModal, shareDocId, shareDocName, socket } = useContext(GlobalContext);
 
     const handleChange = (e) => {
         setRecipient({ ...recipient, [e.target.name]: e.target.value });
@@ -14,8 +14,8 @@ export default function ShareDocModal() {
     
     const handleShare = (e) => {
         e.preventDefault();
-        const doc = {"doc_id": shareDocId, "recipient": recipient.recipient};
-        shareDocument(doc);
+        const notification = {"doc_id": shareDocId, "sender": localStorage.getItem("userName"), "recipient": recipient.recipient};
+        socket.emit("send-notification", notification);
         toggleShareDocModal();
     };
 
